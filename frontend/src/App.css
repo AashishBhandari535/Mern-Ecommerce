@@ -627,3 +627,16 @@ ul.CTAs a {
 .chart {
   height: 25vh;
 }
+
+/* Product Details */
+.socialShare {
+  display: flex;
+  column-gap: 10px;
+}
+.socialShareButton {
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.socialShareButton:hover {
+  transform: scale(1.1);
+}

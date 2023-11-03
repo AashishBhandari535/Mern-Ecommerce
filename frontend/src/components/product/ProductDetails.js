@@ -17,6 +17,7 @@ import {
 
 //Actions
 import { addItemToCart } from "../../slices/cartSlice";
+import ProductShare from "./ProductShare";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -211,6 +212,7 @@ const ProductDetails = () => {
               <p id="product_seller mb-3">
                 Sold by: <strong>{productDetails?.product.seller}</strong>
               </p>
+              <ProductShare />
 
               {user ? (
                 <button

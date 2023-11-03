@@ -150,7 +150,7 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
     },
     { $sort: { paidAt: 1 } },
   ]);
-  console.log(income);
+
   res.status(200).json({
     last7daysIncome: income,
   });
