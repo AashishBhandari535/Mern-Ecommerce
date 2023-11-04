@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 
-import Loader from "../layout/Loader";
+import ProductPageLoader from "../Loader/ProductPageLoader";
 import MetaData from "../layout/MetaData";
 import ListReviews from "../review/ListReviews";
 
@@ -32,7 +32,7 @@ const ProductDetails = () => {
 
   const [createNewReview] = useNewReviewMutation();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.auth);
 
   const addToCart = () => {
     dispatch(
@@ -119,7 +119,7 @@ const ProductDetails = () => {
   return (
     <Fragment>
       {isLoading ? (
-        <Loader />
+        <ProductPageLoader />
       ) : (
         <div className="container container-fluid">
           <MetaData title={productDetails?.product.name} />
@@ -226,9 +226,11 @@ const ProductDetails = () => {
                   Submit Your Review
                 </button>
               ) : (
-                <div className="alert alert-danger mt-5" type="alert">
-                  Login to post your review.
-                </div>
+                !loading && (
+                  <div className="alert alert-danger mt-5" type="alert">
+                    Login to post your review.
+                  </div>
+                )
               )}
 
               <div className="row mt-2 mb-5">

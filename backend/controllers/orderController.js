@@ -157,7 +157,7 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
   const income = await Order.aggregate([
     {
       $match: {
-        paidAt: { $gte: moment().subtract(7, "days").toDate() },
+        paidAt: { $gte: moment().startOf("day").subtract(7, "days").toDate() },
       },
     },
     {

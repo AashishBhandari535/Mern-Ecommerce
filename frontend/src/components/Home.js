@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -7,16 +7,16 @@ import { useGetProductsQuery } from "../slices/productsApiSlice";
 
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
-// import Loader from "./layout/Loader";
 import HomeLoader from "./Loader/HomeLoader";
 
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
 const Home = () => {
   const { keyword } = useParams();
+  const { pathname } = useLocation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([1, 1000]); //sets initial value of slider
@@ -54,6 +54,9 @@ const Home = () => {
   if (keyword) {
     count = data?.filteredProductsCount;
   }
+  useEffect(() => {
+    if (pathname === "/") setCategory("");
+  }, [pathname]);
   return (
     <Fragment>
       {isFetching ? (
