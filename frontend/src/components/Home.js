@@ -7,7 +7,8 @@ import { useGetProductsQuery } from "../slices/productsApiSlice";
 
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
-import Loader from "./layout/Loader";
+// import Loader from "./layout/Loader";
+import HomeLoader from "./Loader/HomeLoader";
 
 import { useParams } from "react-router-dom";
 
@@ -56,7 +57,7 @@ const Home = () => {
   return (
     <Fragment>
       {isFetching ? (
-        <Loader />
+        <HomeLoader />
       ) : (
         <div className="container container-fluid">
           <MetaData title={"Buy Best Products Online"} />
