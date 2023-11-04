@@ -128,24 +128,107 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Weekly sales => /api/v1/week-sales
 exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
+  // const income = await Order.aggregate([
+  //   {
+  //     $match: {
+  //       paidAt: { $gte: moment().endOf("day").subtract(7, "days").toDate() },
+  //     },
+  //   },
+  //   {
+  //     $project: {
+  //       paidAt: "$paidAt",
+  //       day: { $dayOfWeek: "$paidAt" },
+  //       total: "$totalPrice",
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: "$day",
+  //       total: { $sum: "$total" },
+  //       paidAt: { $first: "$paidAt" },
+  //     },
+  //   },
+  //   { $sort: { paidAt: 1 } },
+  // ]);
+  const today = moment();
+  const last7daysDate = Array(7)
+    .fill()
+    .map(() => today.subtract(1, "d").format("YYYY-MM-DD"));
   const income = await Order.aggregate([
     {
       $match: {
-        paidAt: { $gte: moment().endOf("day").subtract(7, "days").toDate() },
+        paidAt: { $gte: moment().subtract(7, "days").toDate() },
       },
     },
     {
       $project: {
-        paidAt: "$paidAt",
-        day: { $dayOfWeek: "$paidAt" },
+        paidAt: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$paidAt",
+          },
+        },
+        day: "$_id",
         total: "$totalPrice",
       },
     },
     {
       $group: {
-        _id: "$day",
+        _id: 0,
         total: { $sum: "$total" },
         paidAt: { $first: "$paidAt" },
+      },
+    },
+    {
+      $project: {
+        paidAt: 1,
+        _id: 0,
+        total: 1,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        documents: { $push: "$$ROOT" },
+      },
+    },
+    {
+      $project: {
+        documents: {
+          $map: {
+            input: last7daysDate,
+            as: "paidAt",
+            in: {
+              $let: {
+                vars: {
+                  paidAtIndex: {
+                    $indexOfArray: ["$documents.paidAt", "$$paidAt"],
+                  },
+                },
+                in: {
+                  $cond: {
+                    if: { $ne: ["$$paidAtIndex", -1] },
+                    then: {
+                      $arrayElemAt: ["$documents", "$$paidAtIndex"],
+                    },
+                    else: {
+                      total: 0,
+                      paidAt: "$$paidAt",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $unwind: "$documents",
+    },
+    {
+      $replaceRoot: {
+        newRoot: "$documents",
       },
     },
     { $sort: { paidAt: 1 } },
@@ -155,3 +238,8 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
     last7daysIncome: income,
   });
 });
+
+//https://betterprogramming.pub/learn-how-to-use-group-in-mongodb-aggregation-pipeline-8fd007ad492f
+//https://stackoverflow.com/questions/52235027/fill-missing-dates-in-records
+//https://stackoverflow.com/questions/61973316/aggregate-by-all-days-of-month-mongodb
+//https://medium.com/@alexandro.ramr777/fill-missing-values-using-mongodb-aggregation-framework-f011114e83e0

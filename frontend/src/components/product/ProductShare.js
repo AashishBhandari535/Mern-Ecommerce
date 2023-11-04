@@ -47,7 +47,7 @@ export default function ProductShare() {
         <WhatsappIcon size={38} className="socialShareButton" />
       </WhatsappShareButton>
       <PinterestShareButton url={window.location.href}>
-        <PinterestIcon size={38} className="socialShareButton rounded-circle" />
+        <PinterestIcon size={38} className="socialShareButton " />
       </PinterestShareButton>
       <EmailShareButton url={window.location.href}>
         <EmailIcon size={38} className="socialShareButton" />
