@@ -22,6 +22,18 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Login first to access this resource", 403));
   }
 });
+// Checks if user is verified or not
+exports.isVerified = (req, res, next) => {
+  if (!req.user.isVerified) {
+    return next(
+      new ErrorHandler(
+        "verify email address first to access this resource",
+        403
+      )
+    );
+  }
+  next();
+};
 
 // Handling users roles
 exports.authorizeRoles = (...roles) => {

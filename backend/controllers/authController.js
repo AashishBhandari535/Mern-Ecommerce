@@ -96,6 +96,7 @@ exports.googleLoginUser = catchAsyncErrors(async (req, res, next) => {
         public_id: sub,
         url: picture,
       },
+      isVerified: true,
     });
     user = await user.save({ validateBeforeSave: false });
   }
@@ -124,6 +125,83 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
         token,
       });
     });
+  });
+});
+
+// send Verify Email => /api/v1/users/email/verifyEmail
+exports.sendVerifyEmail = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHandler("User not found with this email", 404));
+  }
+
+  // Get verification token
+  const verifyToken = await user.getEmailToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  const message = `${process.env.FRONTEND_URL}/email/verifyEmail/${user.id}/${verifyToken}`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Verify Email",
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `verify Email link sent to: ${user.email}`,
+    });
+  } catch (error) {
+    user.verifyEmailToken = undefined;
+    user.verifyEmailExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+// Verify Email => /api/v1/user/verify/:userId/:verifyToken
+exports.verifyEmail = catchAsyncErrors(async (req, res, next) => {
+  //Hash URL token
+  const { userId, verifyEmailToken } = req.params;
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(verifyEmailToken)
+    .digest("hex");
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return next(new ErrorHandler("User doesnt exists", 404));
+  }
+
+  const userDetails = await User.findOne({
+    verifyEmailToken: hashedToken,
+    verifyEmailExpire: { $gt: Date.now() },
+  });
+
+  if (!userDetails) {
+    return next(
+      new ErrorHandler(
+        "verify Email Token  is invalid or has been expired",
+        400
+      )
+    );
+  }
+
+  //Setup new password
+  user.isVerified = true;
+  user.verifyEmailToken = undefined;
+  user.verifyEmailExpire = undefined;
+
+  await user.save({ validateBeforeSave: false });
+
+  // sendToken(user, 200, res);
+  res.status(200).json({
+    status: "success",
+    message: "User verified successfully",
+    user,
   });
 });
 
@@ -221,7 +299,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
-  console.log(newUserData);
 
   // Update avatar
   if (req.body.avatar !== "") {

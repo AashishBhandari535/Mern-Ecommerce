@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import MetaData from "../layout/MetaData";
 
 //queries and mutations
-import { useForgotPasswordMutation } from "../../slices/userApiSlice";
+import { useSendVerifyEmailMutation } from "../../slices/userApiSlice";
 
 // import { useAlert } from "react-alert";
 import { toast } from "react-toastify";
 
-const ForgotPassword = () => {
+const SendVerifyEmail = () => {
   const [email, setEmail] = useState("");
 
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [sendVerifyEmail, { isLoading }] = useSendVerifyEmailMutation();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ const ForgotPassword = () => {
     formData.set("email", email);
 
     try {
-      const data = await forgotPassword(formData).unwrap();
+      const data = await sendVerifyEmail(formData).unwrap();
       toast.success(data?.message);
     } catch (err) {
       toast.error(err?.data?.errMessage);
@@ -29,11 +29,11 @@ const ForgotPassword = () => {
 
   return (
     <div className="container container-fluid">
-      <MetaData title={"Forgot Password"} />
+      <MetaData title={"Send Verify Email"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>
-            <h1 className="mb-3">Forgot Password</h1>
+            <h1 className="mb-3">Send Verify Email</h1>
             <div className="form-group">
               <label htmlFor="email_field">Enter Email</label>
               <input
@@ -60,4 +60,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default SendVerifyEmail;

@@ -1,4 +1,4 @@
-import { ADMIN_URL, PASSWORD_URL, USERS_URL } from "../constants";
+import { ADMIN_URL, PASSWORD_URL, USERS_URL, EMAIL_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 import { setUser, logout, setCredentials } from "./authSlice";
 
@@ -97,6 +97,35 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    sendVerifyEmail: builder.mutation({
+      query: (email) => {
+        return {
+          url: `${EMAIL_URL}/verifyEmail`,
+          method: "POST",
+          body: email,
+          formData: true,
+        };
+      },
+    }),
+    verifyEmail: builder.mutation({
+      query: (verifyEmailData) => {
+        const { userId, emailVerificationCode: verifyEmailToken } =
+          verifyEmailData;
+        console.log(userId, verifyEmailToken);
+        return {
+          url: `${EMAIL_URL}/verify/${userId}/${verifyEmailToken}`,
+          method: "PATCH",
+        };
+      },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data?.user) dispatch(setUser(data?.user));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
     forgotPassword: builder.mutation({
       query: (email) => {
         return {
@@ -191,4 +220,6 @@ export const {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useSendVerifyEmailMutation,
+  useVerifyEmailMutation,
 } = usersApiSlice;

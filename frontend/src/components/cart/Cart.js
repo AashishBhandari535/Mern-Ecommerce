@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import MetaData from "../layout/MetaData";
+import { toast } from "react-toastify";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { addItemToCart, removeItemFromCart } from "../../slices/cartSlice";
@@ -11,7 +13,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const { cartItems } = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const removeCartItemHandler = (id) => {
     dispatch(removeItemFromCart(id));
@@ -51,6 +53,10 @@ const Cart = () => {
 
   const checkoutHandler = () => {
     isAuthenticated ? navigate("/shipping") : navigate("/login");
+    if (!user.isVerified) {
+      toast.error("Verify Email Address To proceed To Shipping");
+      return;
+    }
   };
 
   return (

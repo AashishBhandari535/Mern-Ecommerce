@@ -5,6 +5,8 @@ const {
   registerUser,
   loginUser,
   logOut,
+  sendVerifyEmail,
+  verifyEmail,
   forgotPassword,
   resetPassword,
   getUserProfile,
@@ -18,7 +20,11 @@ const {
   googleLoginUser,
 } = require("../controllers/authController");
 
-const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
+const {
+  isAuthenticatedUser,
+  authorizeRoles,
+  isVerified,
+} = require("../middleware/auth");
 
 router.route("/users/register").post(registerUser);
 router.route("/users/login").post(loginUser);
@@ -32,8 +38,18 @@ router.route("/users/password/resetPassword/:token").patch(resetPassword);
 router.route("/users/logout").post(logOut);
 
 router.route("/users/me").get(isAuthenticatedUser, getUserProfile);
-router.route("/users/password/update").put(isAuthenticatedUser, updatePassword);
-router.route("/users/me/update").put(isAuthenticatedUser, updateProfile);
+router
+  .route("/users/password/update")
+  .put(isAuthenticatedUser, isVerified, updatePassword);
+router
+  .route("/users/me/update")
+  .put(isAuthenticatedUser, isVerified, updateProfile);
+router
+  .route("/users/email/verifyEmail")
+  .post(isAuthenticatedUser, sendVerifyEmail);
+router
+  .route("/users/email/verify/:userId/:verifyEmailToken")
+  .patch(isAuthenticatedUser, verifyEmail);
 
 router
   .route("/admin/users")

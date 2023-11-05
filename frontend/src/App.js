@@ -26,6 +26,8 @@ import UpdateProfile from "./components/user/UpdateProfile";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import NewPassword from "./components/user/NewPassword";
+import SendVerifyEmail from "./components/user/SendVerifyEmail";
+import VerifyEmail from "./components/user/VerifyEmail";
 
 // Admin Imports
 import Dashboard from "./components/admin/Dashboard";
@@ -42,6 +44,7 @@ import ProductReviews from "./components/admin/ProductReviews";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
 import AdminWrapper from "./middlewares/AdminWrapper";
 import ElementsLayout from "./middlewares/ElementsLayout";
+import VerifiedRoute from "./middlewares/VerifiedRoute";
 
 // queries
 import { useLoadUserQuery } from "./slices/userApiSlice";
@@ -85,19 +88,26 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} />
           <Route path="/me/update" element={<UpdateProfile />} />
-          <Route path="/password/update" element={<UpdatePassword />} />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/order/confirm" element={<ConfirmOrder />} />
-          <Route path="/success" element={<OrderSuccess />} />
-          <Route path="/orders/me" element={<ListOrders />} />
-          <Route path="/order/:id" element={<OrderDetails />} />
-          {stripeApiKey && (
-            <Route
-              element={<ElementsLayout stripe={loadStripe(stripeApiKey)} />}
-            >
-              <Route path="/payment" element={<Payment />} />
-            </Route>
-          )}
+          <Route path="/email/sendVerifyEmail" element={<SendVerifyEmail />} />
+          <Route
+            path="/email/verifyEmail/:userId/:emailVerificationToken"
+            element={<VerifyEmail />}
+          />
+          <Route element={<VerifiedRoute />}>
+            <Route path="/password/update" element={<UpdatePassword />} />
+            <Route path="/shipping" element={<Shipping />} />
+            <Route path="/order/confirm" element={<ConfirmOrder />} />
+            <Route path="/success" element={<OrderSuccess />} />
+            <Route path="/orders/me" element={<ListOrders />} />
+            <Route path="/order/:id" element={<OrderDetails />} />
+            {stripeApiKey && (
+              <Route
+                element={<ElementsLayout stripe={loadStripe(stripeApiKey)} />}
+              >
+                <Route path="/payment" element={<Payment />} />
+              </Route>
+            )}
+          </Route>
           <Route element={<AdminWrapper isAdmin={true} />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin/products" element={<ProductList />} />

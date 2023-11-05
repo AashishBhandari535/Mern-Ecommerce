@@ -55,7 +55,11 @@ const Home = () => {
     count = data?.filteredProductsCount;
   }
   useEffect(() => {
-    if (pathname === "/") setCategory("");
+    if (pathname === "/") {
+      setCategory("");
+      setPrice([1, 1000]);
+      setRating(0);
+    }
   }, [pathname]);
   return (
     <Fragment>

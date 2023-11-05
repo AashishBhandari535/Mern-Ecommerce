@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Please enter valid email address"],
   },
+  isVerified: {
+    type: Boolean,
+    defailt: false,
+  },
   password: {
     type: String,
     required: [true, "Please enter your password"],
@@ -56,6 +60,8 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+  verifyEmailToken: String,
+  verifyEmailExpire: Date,
 });
 // Document middleware
 // Encrypting password before saving user
@@ -80,7 +86,7 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 // Return JWT access token
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "1m",
+    expiresIn: "30m",
   });
   return token;
 };
@@ -93,6 +99,22 @@ userSchema.methods.generateRefreshToken = function () {
   return refreshToken;
 };
 
+//Generate email verify token
+userSchema.methods.getEmailToken = async function () {
+  // Generate token
+  const verifyEmailToken = await crypto.randomBytes(32).toString("hex");
+
+  // Hash and set to verifyEmailToken
+  this.verifyEmailToken = await crypto
+    .createHash("sha256")
+    .update(verifyEmailToken)
+    .digest("hex");
+
+  // Hash and set to verifyEmailToken
+  this.verifyEmailExpire = Date.now() + 30 * 60 * 1000;
+
+  return verifyEmailToken;
+};
 //Generate password reset token
 userSchema.methods.getResetPasswordToken = async function () {
   // Generate token

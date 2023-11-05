@@ -6,9 +6,11 @@ const {
   sendStripeApi,
 } = require("../controllers/paymentController");
 
-const { isAuthenticatedUser } = require("../middleware/auth");
+const { isAuthenticatedUser, isVerified } = require("../middleware/auth");
 
-router.route("/payment/process").post(isAuthenticatedUser, processPayment);
-router.route("/stripeapi").get(isAuthenticatedUser, sendStripeApi);
+router
+  .route("/payment/process")
+  .post(isAuthenticatedUser, isVerified, processPayment);
+router.route("/stripeapi").get(isAuthenticatedUser, isVerified, sendStripeApi);
 
 module.exports = router;
