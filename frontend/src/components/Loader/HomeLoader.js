@@ -11,7 +11,7 @@ export default function HomeLoader({ col }) {
           return (
             <div class={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
               <div className="card p-3 rounded" key={index}>
-                <SkeletonTheme color="lightGray">
+                <SkeletonTheme color="darkGray">
                   <Skeleton height={180} width={"100%"} />
                   <Skeleton width={`80%`} count={2} />
                   <br />

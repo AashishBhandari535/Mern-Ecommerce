@@ -22,9 +22,12 @@ const Register = () => {
     email: Yup.string()
       .required("Email address is required")
       .email("Please enter a valid email address"),
-    password: Yup.string().required("Please enter a password"),
+    password: Yup.string()
+      .required("Please enter a password")
+      .min(6, "Must be 6 characters or more"),
     confirmPassword: Yup.string()
       .required("Please re-type your password")
+      .min(6, "Must be 6 characters or more")
       .oneOf([Yup.ref("password")], "Passwords does not match"),
     avatar: Yup.mixed().nullable().required("Please enter a photo"),
   });

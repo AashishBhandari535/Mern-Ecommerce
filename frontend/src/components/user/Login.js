@@ -19,7 +19,9 @@ const Login = () => {
     email: Yup.string()
       .required("Email address is required")
       .email("Please enter a valid email address"),
-    password: Yup.string().required("Please enter a password"),
+    password: Yup.string()
+      .required("Please enter a password")
+      .min(6, "Must be 6 characters or more"),
   });
 
   const navigate = useNavigate();

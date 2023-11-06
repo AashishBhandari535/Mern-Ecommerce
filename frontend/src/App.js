@@ -69,7 +69,6 @@ function App() {
     setStripeApiKey(data?.stripeApiKey);
   }, [data?.stripeApiKey]);
 
-  console.log(process.env.REACT_APP_CLIENT_ID);
   return (
     <div className="App">
       <Header />
