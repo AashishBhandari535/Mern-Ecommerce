@@ -141,7 +141,8 @@ exports.sendVerifyEmail = catchAsyncErrors(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false });
 
-  const message = `${process.env.FRONTEND_URL}/email/verifyEmail/${user.id}/${verifyToken}`;
+  const verifyEmailUrl = `${process.env.FRONTEND_URL}/email/verifyEmail/${user.id}/${verifyToken}`;
+  const message = `Your verify Link is as follow:\n\n${verifyEmailUrl}\n\nIf you have not requested this email, then ignore it.`;
   try {
     await sendEmail({
       email: user.email,

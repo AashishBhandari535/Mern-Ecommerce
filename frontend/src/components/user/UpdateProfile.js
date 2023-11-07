@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -9,8 +9,10 @@ import { toast } from "react-toastify";
 
 // queries and mutations
 import { useUpdateProfileMutation } from "../../slices/userApiSlice";
+import { useSelector } from "react-redux";
 
 const UpdateProfile = () => {
+  const { user } = useSelector((state) => state.auth);
   const updateValidation = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -32,11 +34,17 @@ const UpdateProfile = () => {
     try {
       await updateProfile(formData).unwrap();
       toast.success("Profile Updated Successfully");
+      setSubmitting(false);
       navigate("/me");
     } catch (err) {
       toast.error(err?.data?.errMessage.split(":")[2]);
     }
   };
+  useEffect(() => {
+    if (user.isVerified) {
+      navigate("/me");
+    }
+  }, [user]);
   return (
     <Fragment>
       <MetaData title={"Update Profile"} />

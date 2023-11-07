@@ -53,12 +53,9 @@ import { useGetStripeKeyQuery } from "./slices/orderApiSlice";
 // Payment
 import { loadStripe } from "@stripe/stripe-js";
 
-import { BASE_URL } from "./constants";
-
 import "./App.css";
 
 function App() {
-  console.log(BASE_URL);
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   const { isSuccess } = useLoadUserQuery();
