@@ -13,6 +13,7 @@ import {
 } from "../../slices/orderApiSlice";
 
 import { toast } from "react-toastify";
+import ButtonWrapper from "./ButtonWrapper";
 
 const OrdersList = () => {
   const { data, isLoading } = useGetAllOrdersQuery();
@@ -71,7 +72,7 @@ const OrdersList = () => {
             <p style={{ color: "red" }}>{order.orderStatus}</p>
           ),
         actions: (
-          <Fragment>
+          <ButtonWrapper>
             <Link
               to={`/admin/order/${order._id}`}
               className="btn btn-primary py-1 px-2"
@@ -84,7 +85,7 @@ const OrdersList = () => {
             >
               <i className="fa fa-trash"></i>
             </button>
-          </Fragment>
+          </ButtonWrapper>
         ),
       });
     });
@@ -96,11 +97,11 @@ const OrdersList = () => {
     <Fragment>
       <MetaData title={"All Orders"} />
       <div className="row">
-        <div className="col-12 col-md-2">
+        <div className="col-3 col-md-2 col-lg-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-9 col-md-10 col-lg-10">
           <Fragment>
             <h1 className="my-5">All Orders</h1>
 

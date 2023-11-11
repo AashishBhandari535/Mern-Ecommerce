@@ -8,7 +8,7 @@ export default function ProductPageLoader() {
       <div class="row f-flex justify-content-around">
         <div class="col-12 col-lg-5 img-fluid" id="product_image">
           <SkeletonTheme color="lightGray">
-            <Skeleton height={500} width={500} />
+            <Skeleton height={500} />
           </SkeletonTheme>
         </div>
         <div class="col-12 col-lg-5 mt-5">
@@ -17,7 +17,7 @@ export default function ProductPageLoader() {
             <Skeleton count={3} width={`70%`} />
             <br />
             <Skeleton count={5} width={`50%`} />
-            <Skeleton height={200} width={500} />
+            <Skeleton height={200} />
             <br />
             <Skeleton width={`30%`} />
             <br />

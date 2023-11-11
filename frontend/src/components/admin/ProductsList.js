@@ -13,6 +13,7 @@ import {
   useAllProductsQuery,
   useDeleteProductMutation,
 } from "../../slices/productsApiSlice";
+import ButtonWrapper from "./ButtonWrapper";
 
 const ProductsList = () => {
   const { data, isLoading } = useAllProductsQuery();
@@ -56,7 +57,7 @@ const ProductsList = () => {
         price: `$${product.price}`,
         stock: product.stock,
         actions: (
-          <Fragment>
+          <ButtonWrapper>
             <Link
               to={`/admin/product/${product._id}`}
               className="btn btn-primary py-1 px-2"
@@ -69,7 +70,7 @@ const ProductsList = () => {
             >
               <i className="fa fa-trash"></i>
             </button>
-          </Fragment>
+          </ButtonWrapper>
         ),
       });
     });
@@ -90,11 +91,11 @@ const ProductsList = () => {
     <Fragment>
       <MetaData title={"All Products"} />
       <div className="row">
-        <div className="col-12 col-md-2">
+        <div className="col-3 col-md-2 col-lg-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-9 col-md-10 col-lg-10">
           <Fragment>
             <h1 className="my-5">All Products</h1>
 

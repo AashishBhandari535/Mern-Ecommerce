@@ -21,7 +21,7 @@ export default function ItemStockPie({ products }) {
   };
   return (
     <>
-      <Doughnut data={doughnutState} />
+      <Doughnut data={doughnutState} options={{ maintainAspectRatio: false }} />
     </>
   );
 }

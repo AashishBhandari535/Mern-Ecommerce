@@ -168,13 +168,13 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
             date: "$paidAt",
           },
         },
-        day: "$_id",
+        day: { $dayOfWeek: "$paidAt" },
         total: "$totalPrice",
       },
     },
     {
       $group: {
-        _id: 0,
+        _id: "$day",
         total: { $sum: "$total" },
         paidAt: { $first: "$paidAt" },
       },
@@ -233,7 +233,7 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
     },
     { $sort: { paidAt: 1 } },
   ]);
-
+  console.log(income);
   res.status(200).json({
     last7daysIncome: income,
   });

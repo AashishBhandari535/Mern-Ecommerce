@@ -23,6 +23,25 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//
+exports.paymentSession = catchAsyncErrors(async (req, res, next) => {
+  const sig = req.headers["stripe-signature"];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.rawBody,
+      sig,
+      process.env.ENDPOINTSECRET
+    );
+  } catch (err) {
+    res.status(400).send(`Webhook Error:${err.message}`);
+    return;
+  }
+  console.log(event);
+  // Return a 200 response to acknowledge receipt of the event
+  res.send();
+});
 // Send stripe API Key   =>   /api/v1/stripeapi
 exports.sendStripeApi = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({

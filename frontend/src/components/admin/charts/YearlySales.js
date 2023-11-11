@@ -53,7 +53,7 @@ export default function YearlySales({ orders }) {
   };
   return (
     <>
-      <Line data={lineState} />
+      <Line data={lineState} options={{ maintainAspectRatio: false }} />
     </>
   );
 }

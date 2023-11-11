@@ -27,7 +27,7 @@ export default function Last7Days() {
 
   return (
     <>
-      <Line data={lineState} />
+      <Line data={lineState} options={{ maintainAspectRatio: false }} />
     </>
   );
 }

@@ -43,11 +43,11 @@ const ProcessOrder = () => {
     <Fragment>
       <MetaData title={`Process Order # ${data?.order._id}`} />
       <div className="row">
-        <div className="col-12 col-md-2">
+        <div className="col-3 col-md-2 col-lg-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-9 col-md-10 col-lg-10">
           <Fragment>
             {isLoading ? (
               <Loader />

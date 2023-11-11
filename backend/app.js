@@ -14,6 +14,14 @@ const morgan = require("morgan");
 
 app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
+app.post(
+  "/api/v1/webhook",
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "25mb", extended: true })); //Parse URL-encoded bodies
 app.use(fileUpload());

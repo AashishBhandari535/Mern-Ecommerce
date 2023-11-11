@@ -19,7 +19,7 @@ export default function OrderStatusPie({ orders }) {
   };
   return (
     <>
-      <Pie data={pieState} />
+      <Pie data={pieState} options={{ maintainAspectRatio: false }} />
     </>
   );
 }

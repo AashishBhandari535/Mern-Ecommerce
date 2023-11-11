@@ -21,7 +21,6 @@ const NewPassword = () => {
     confirmPassword: Yup.string()
       .required(" Password is required")
       .min(6, "Must be 6 characters or more"),
-    // .oneOf([Yup.ref("password")], "Passwords does not match"),
   });
 
   const { token } = useParams();
@@ -29,8 +28,6 @@ const NewPassword = () => {
   const navigate = useNavigate();
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
-
-  console.log(isLoading);
 
   const submitHandler = async (
     { password, confirmPassword },

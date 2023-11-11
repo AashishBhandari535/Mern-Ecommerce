@@ -632,6 +632,8 @@ ul.CTAs a {
 .socialShare {
   display: flex;
   column-gap: 10px;
+  row-gap: 10px;
+  flex-wrap: wrap;
 }
 .socialShareButton {
   border-radius: 50%;
@@ -639,4 +641,8 @@ ul.CTAs a {
 }
 .socialShareButton:hover {
   transform: scale(1.1);
+}
+
+.dataTables_wrapper {
+  overflow-x: scroll;
 }

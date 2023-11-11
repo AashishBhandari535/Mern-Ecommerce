@@ -31,11 +31,11 @@ const Dashboard = () => {
   return (
     <Fragment>
       <div className="row">
-        <div className="col-4 col-md-2">
+        <div className="col-3 col-md-2 col-lg-2">
           <Sidebar />
         </div>
 
-        <div className="col-8 col-md-10">
+        <div className="col-9 col-md-10 col-lg-10">
           <h1 className="my-4">Dashboard</h1>
 
           {isLoading ? (
@@ -45,7 +45,7 @@ const Dashboard = () => {
               <MetaData title={"Admin Dashboard"} />
 
               <div className="row pr-4 ">
-                <div className="col-xl-12 col-sm-12 mb-3">
+                <div className="col-xl-3 col-md-12 col-12  mb-3">
                   <div className="card text-white bg-primary o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
@@ -55,10 +55,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="row pr-4 ">
-                <div className="col-xl-3 col-sm-6 mb-3">
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
                   <div className="card text-white bg-success o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
@@ -67,7 +64,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <Link
-                      className="card-footer text-white clearfix small z-1"
+                      className="card-footer text-white clearfix small z-1 d-none d-md-block"
                       to="/admin/products"
                     >
                       <span className="float-left">View Details</span>
@@ -78,7 +75,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="col-xl-3 col-sm-6 mb-3">
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
                   <div className="card text-white bg-danger o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
@@ -87,7 +84,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <Link
-                      className="card-footer text-white clearfix small z-1"
+                      className="card-footer text-white clearfix small z-1 d-none d-md-block"
                       to="/admin/orders"
                     >
                       <span className="float-left">View Details</span>
@@ -98,7 +95,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="col-xl-3 col-sm-6 mb-3">
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
                   <div className="card text-white bg-info o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
@@ -107,7 +104,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <Link
-                      className="card-footer text-white clearfix small z-1"
+                      className="card-footer text-white clearfix small z-1 d-none d-md-block"
                       to="/admin/users"
                     >
                       <span className="float-left">View Details</span>
@@ -117,38 +114,56 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-xl-3 col-sm-6 mb-3">
-                  <div className="card text-white bg-warning o-hidden h-100">
-                    <div className="card-body">
-                      <div className="text-center card-font-size">
-                        Out of Stock
-                        <br /> <b>{outOfStock}</b>
-                      </div>
+              <div className="row pr-4 ">
+                <div
+                  className="col-12 d-none d-md-block d-lg-none"
+                  style={{ height: "40vh" }}
+                >
+                  <CategoriesBar products={AdminProducts?.products} />
+                </div>
+                <div className="col-12 col-md-8 col-lg-10">
+                  <div className="row">
+                    <div
+                      className="col-12 col-md-12 col-lg-6"
+                      style={{ height: "40vh" }}
+                    >
+                      <Last7Days />
+                    </div>
+
+                    <div
+                      className="col-12 col-md-12 col-lg-6"
+                      style={{ height: "40vh" }}
+                    >
+                      <YearlySales orders={AllOrders?.orders} />
+                    </div>
+
+                    <div
+                      className="col-12 d-block d-md-none d-lg-block"
+                      style={{ height: "40vh" }}
+                    >
+                      <CategoriesBar products={AdminProducts?.products} />
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="row pr-4 mb-4">
-                <div className="col-12 col-md-4 ">
-                  <Last7Days />
-                </div>
+                <div className="col-12 col-md-4 col-lg-2">
+                  <div className="row">
+                    <div
+                      className="col-6 col-md-12 chart d-flex justify-content-center"
+                      style={{ height: "40vh" }}
+                    >
+                      <ItemStockPie products={AdminProducts?.products} />
+                    </div>
 
-                <div className="col-12 col-md-4 ">
-                  <YearlySales orders={AllOrders?.orders} />
-                </div>
-
-                <div className="col-12 col-md-4 ">
-                  <CategoriesBar products={AdminProducts?.products} />
-                </div>
-
-                <div className="col-12 col-md-4 chart d-flex justify-content-center">
-                  <ItemStockPie products={AdminProducts?.products} />
-                </div>
-
-                <div className="col-12 col-md-4 chart d-flex justify-content-center">
-                  <OrderStatusPie orders={AllOrders?.orders} />
+                    <div
+                      className="col-6 col-md-12 chart d-flex justify-content-center"
+                      style={{ height: "40vh" }}
+                    >
+                      <OrderStatusPie orders={AllOrders?.orders} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </Fragment>

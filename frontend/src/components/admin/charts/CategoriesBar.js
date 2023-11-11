@@ -35,7 +35,7 @@ export default function CategoriesBar({ products }) {
   };
   return (
     <>
-      <Bar data={barState} />
+      <Bar data={barState} options={{ maintainAspectRatio: false }} />
     </>
   );
 }

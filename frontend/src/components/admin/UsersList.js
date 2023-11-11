@@ -13,6 +13,7 @@ import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../slices/userApiSlice";
+import ButtonWrapper from "./ButtonWrapper";
 
 const UsersList = () => {
   const { data, isLoading } = useGetAllUsersQuery();
@@ -66,20 +67,22 @@ const UsersList = () => {
         role: user.role,
 
         actions: (
-          <Fragment>
-            <Link
-              to={`/admin/user/${user._id}`}
-              className="btn btn-primary py-1 px-2"
-            >
-              <i className="fa fa-pencil"></i>
-            </Link>
-            <button
-              className="btn btn-danger py-1 px-2 ml-2"
-              onClick={() => deleteUserHandler(user._id)}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
-          </Fragment>
+          <>
+            <ButtonWrapper>
+              <Link
+                to={`/admin/user/${user._id}`}
+                className="btn btn-primary py-1 px-2"
+              >
+                <i className="fa fa-pencil"></i>
+              </Link>
+              <button
+                className="btn btn-danger py-1 px-2 ml-2"
+                onClick={() => deleteUserHandler(user._id)}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            </ButtonWrapper>
+          </>
         ),
       });
     });
@@ -91,11 +94,11 @@ const UsersList = () => {
     <Fragment>
       <MetaData title={"All Users"} />
       <div className="row">
-        <div className="col-12 col-md-2">
+        <div className="col-3 col-md-2 col-lg-2">
           <Sidebar />
         </div>
 
-        <div className="col-12 col-md-10">
+        <div className="col-9 col-md-10 col-lg-10">
           <Fragment>
             <h1 className="my-5">All Users</h1>
 
