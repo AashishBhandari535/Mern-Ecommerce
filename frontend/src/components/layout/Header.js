@@ -16,7 +16,6 @@ const Header = () => {
 
   const { cartItems } = useSelector((state) => state.cart);
   const { user, loading } = useSelector((state) => state.auth);
-  // const { wishlistItems } = useSelector((state) => state.wishlist);
 
   const [userLogOut] = useLogOutMutation();
 
@@ -33,7 +32,7 @@ const Header = () => {
   return (
     <Fragment>
       <nav className="navbar row">
-        <div className="col-12 col-md-3">
+        <div className=" col-6 col-lg-3">
           <div className="navbar-brand">
             <Link to="/">
               <img src="/images/shopit_logo.png" />
@@ -41,11 +40,11 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="col-12 col-md-6 mt-2 mt-md-0">
+        <div className="col-12 col-lg-6 mt-2 mt-md-0 d-none d-lg-block">
           <Search />
         </div>
 
-        <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+        <div className=" col-lg-3 col-6   text-right d-flex align-items-center d-md-block ">
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <span id="cart" className="ml-3">
               Cart
@@ -55,17 +54,8 @@ const Header = () => {
             </span>
           </Link>
 
-          {/* <Link to="/wishlist" style={{ textDecoration: "none" }}>
-              <span id="wishlist" className="ml-3">
-                Wishlist
-              </span>
-              <span className="ml-1" id="wishlist_count">
-                {wishlistItems.length}
-              </span>
-            </Link> */}
-
           {user ? (
-            <div className="ml-4 dropdown d-inline">
+            <div className="ml-2 ml-md-4 dropdown d-inline">
               <Link
                 to="#!"
                 className="btn dropdown-toggle text-white mr-4"
@@ -82,7 +72,9 @@ const Header = () => {
                     className="rounder-circle"
                   />
                 </figure>
-                <span>{user && user.name.split(" ")[0]}</span>
+                <span className="d-none d-md-inline-block">
+                  {user && user.name.split(" ")[0]}
+                </span>
               </Link>
               <div
                 className="dropdown-menu"

@@ -68,7 +68,6 @@ const Payment = () => {
 
     try {
       const data = await paymentProcess(paymentData).unwrap();
-      console.log(data);
 
       if (!stripe || !elements) {
         return;
@@ -149,8 +148,12 @@ const Payment = () => {
                 options={options}
               />
             </div>
-
-            <button id="pay_btn" type="submit" className="btn btn-block py-3">
+            <button
+              id="pay_btn"
+              type="submit"
+              className="btn btn-block py-3"
+              disabled={!stripe || !elements}
+            >
               Pay {` - ${orderInfo && orderInfo.totalPrice}`}
             </button>
           </form>

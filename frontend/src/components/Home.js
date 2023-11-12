@@ -8,6 +8,7 @@ import { useGetProductsQuery } from "../slices/productsApiSlice";
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
 import HomeLoader from "./Loader/HomeLoader";
+import Search from "./layout/Search";
 
 import { useLocation, useParams } from "react-router-dom";
 
@@ -66,7 +67,13 @@ const Home = () => {
       <div className="container container-fluid">
         <MetaData title={"Buy Best Products Online"} />
 
-        <h1 id="products_heading">Latest Products</h1>
+        <div className="d-lg-none  my-5">
+          <Search />
+        </div>
+
+        <h1 id="products_heading" className="text-lg-left text-center">
+          Latest Products
+        </h1>
 
         <section id="products" className="container mt-5">
           <div className="row">
