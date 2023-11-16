@@ -13,10 +13,10 @@ router
   .route("/payment/process")
   .post(isAuthenticatedUser, isVerified, processPayment);
 router.route("/stripeapi").get(isAuthenticatedUser, isVerified, sendStripeApi);
-router.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  paymentSession
-);
+// router.post(
+//   "/webhook",
+//   express.raw({ type: "application/json" }),
+//   paymentSession
+// );
 
 module.exports = router;

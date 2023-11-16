@@ -31,6 +31,17 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     user: req.user._id,
   });
 
+  orderItems.forEach(async (orderItem) => {
+    const product = await Product.findOne({ _id: orderItem.product });
+    if (product) {
+      let stock = product.stock - orderItem.quantity;
+      if (stock < 0) {
+        stock = 0;
+      }
+      await Product.findByIdAndUpdate(product._id, { stock }, { new: true });
+    }
+  });
+
   res.status(200).json({
     success: true,
     order,
@@ -233,7 +244,6 @@ exports.weeklySales = catchAsyncErrors(async (req, res, next) => {
     },
     { $sort: { paidAt: 1 } },
   ]);
-  console.log(income);
   res.status(200).json({
     last7daysIncome: income,
   });

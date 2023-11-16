@@ -16,7 +16,7 @@ export default function Last7Days() {
     ]),
     datasets: [
       {
-        label: `Sales in last7days`,
+        label: `Sales in last 7 days`,
         borderColor: "#febd69",
         backgroundColor: "#febd69",
         lineTension: 0.5,

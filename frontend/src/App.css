@@ -102,7 +102,13 @@ nav {
 .card-img-top {
   width: 200px;
   height: 150px;
-  object-fit: contain;
+  background-color: #e2e2e2;
+}
+.card-img-top img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  object-position: center;
 }
 
 .ratings {

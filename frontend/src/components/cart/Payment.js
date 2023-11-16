@@ -93,10 +93,9 @@ const Payment = () => {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
           };
-
           await createOrder(order).unwrap();
-
           toast.success("Payment successfull");
+          sessionStorage.removeItem("orderInfo");
           navigate("/success");
         } else {
           toast.error("There is some issue while payment processing");

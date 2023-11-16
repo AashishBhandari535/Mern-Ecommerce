@@ -5,6 +5,7 @@ import {
   STRIPE_URL,
   PAYMENT_PROCESS_URL,
 } from "../constants";
+import { emptyCart, emptyShippingInfo } from "./cartSlice";
 import { apiSlice } from "./apiSlice";
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
@@ -16,6 +17,15 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
           method: "POST",
           body: order,
         };
+      },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(emptyCart());
+          dispatch(emptyShippingInfo());
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
     myOrders: builder.query({
