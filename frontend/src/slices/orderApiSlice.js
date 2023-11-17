@@ -93,13 +93,23 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Orders"],
     }),
-    last7DaySales: builder.query({
+    getMonthlySalesComp: builder.query({
       query: () => {
         return {
-          url: `/api/v1/week-sales`,
+          url: `${ADMIN_URL}/sales/monthlyIncomeComp`,
           method: "GET",
         };
       },
+      keepUnusedDataFor: 5,
+    }),
+    getMonthlyOrdersComp: builder.query({
+      query: () => {
+        return {
+          url: `${ADMIN_URL}/orders/monthlyOrdersComp`,
+          method: "GET",
+        };
+      },
+      keepUnusedDataFor: 5,
     }),
   }),
 });
@@ -113,5 +123,6 @@ export const {
   useGetAllOrdersQuery,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
-  useLast7DaySalesQuery,
+  useGetMonthlySalesCompQuery,
+  useGetMonthlyOrdersCompQuery,
 } = ordersApiSlice;

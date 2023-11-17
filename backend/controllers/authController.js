@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const User = require("../models/user");
 const UserToken = require("../models/userTokenSchema");
 
@@ -427,5 +429,34 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+  });
+});
+
+//MonthlyUsersComp => /api/v1/admin/sales/monthlyIncomeComp
+exports.monthlyUsersComp = catchAsyncErrors(async (req, res, next) => {
+  const previousMonth = moment()
+    .month(moment().month() - 1)
+    .set("date", 1)
+    .format("YYYY-MM-DD HH:mm:ss");
+
+  const users = await User.aggregate([
+    {
+      $match: { createdAt: { $gte: new Date(previousMonth) } },
+    },
+    {
+      $project: {
+        month: { $month: "$createdAt" },
+      },
+    },
+    {
+      $group: {
+        _id: "$month",
+        total: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: -1 } },
+  ]);
+  res.status(200).json({
+    users,
   });
 });

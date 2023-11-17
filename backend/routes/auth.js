@@ -18,6 +18,7 @@ const {
   deleteUser,
   refreshToken,
   googleLoginUser,
+  monthlyUsersComp,
 } = require("../controllers/authController");
 
 const {
@@ -59,5 +60,6 @@ router
   .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetails)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUser)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+router.route("/admin/users/monthlyUsersComp").get(monthlyUsersComp);
 
 module.exports = router;

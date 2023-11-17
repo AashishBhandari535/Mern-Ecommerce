@@ -203,6 +203,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Users"],
     }),
+    getMonthlyUsersComp: builder.query({
+      query: () => {
+        console.log("sdsdsdsd");
+        return {
+          url: `${ADMIN_URL}/users/monthlyUsersComp`,
+          method: "GET",
+        };
+      },
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -222,4 +232,5 @@ export const {
   useDeleteUserMutation,
   useSendVerifyEmailMutation,
   useVerifyEmailMutation,
+  useGetMonthlyUsersCompQuery,
 } = usersApiSlice;

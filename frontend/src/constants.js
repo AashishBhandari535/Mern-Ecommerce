@@ -12,3 +12,4 @@ export const REFRESHTOKEN_URL = "/api/v1/users/refresh";
 export const STRIPE_URL = "/api/v1/stripeapi";
 export const PAYMENT_PROCESS_URL = "/api/v1/payment/process";
 export const EMAIL_URL = "/api/v1/users/email";
+// export const SALES_URL = "/api/v1/sales";

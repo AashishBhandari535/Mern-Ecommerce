@@ -5,10 +5,11 @@ import { Line, Bar, Doughnut, Pie } from "react-chartjs-2";
 import moment from "moment";
 
 // queries and mutations
-import { useLast7DaySalesQuery } from "../../../slices/orderApiSlice";
+import { useLast7DaySalesQuery } from "../../../slices/salesApiSlice";
 
 export default function Last7Days() {
   const { data } = useLast7DaySalesQuery();
+  console.log(data);
   const lineState = {
     labels: data?.last7daysIncome?.map((item) => [
       moment(new Date(item.paidAt)).format("dddd").substring(0, 3),

@@ -10,19 +10,47 @@ import ItemStockPie from "./charts/ItemStockPie";
 import OrderStatusPie from "./charts/OrderStatusPie";
 import YearlySales from "./charts/YearlySales";
 import Last7Days from "./charts/Last7Days";
+import { FaArrowUp, FaArrowDownLong } from "react-icons/fa6";
 
 //Queries and Mutations
 import { useAllProductsQuery } from "../../slices/productsApiSlice";
-import { useGetAllUsersQuery } from "../../slices/userApiSlice";
-import { useGetAllOrdersQuery } from "../../slices/orderApiSlice";
+import {
+  useGetAllUsersQuery,
+  useGetMonthlyUsersCompQuery,
+} from "../../slices/userApiSlice";
+import {
+  useGetAllOrdersQuery,
+  useGetMonthlyOrdersCompQuery,
+  useGetMonthlySalesCompQuery,
+} from "../../slices/orderApiSlice";
 
+function calcPercentage(a, b) {
+  return ((a - b) / b) * 100;
+}
 const Dashboard = () => {
-  const { data: AdminProducts } = useAllProductsQuery();
-  const { data: AllUsers } = useGetAllUsersQuery();
-  const { data: AllOrders, isLoading } = useGetAllOrdersQuery();
+  const { data: adminProducts } = useAllProductsQuery();
+  const { data: allUsers } = useGetAllUsersQuery();
+  const { data: allOrders, isLoading } = useGetAllOrdersQuery();
+  const { data: monthlyIncomeComp } = useGetMonthlySalesCompQuery();
+  const { data: monthlyUsersComp } = useGetMonthlyUsersCompQuery();
+  const { data: monthlyOrdersComp } = useGetMonthlyOrdersCompQuery();
+
+  const usersPerc = calcPercentage(
+    monthlyUsersComp?.users[0]["total"],
+    monthlyUsersComp?.users[1]["total"]
+  ).toFixed(2);
+  const incomePerc = calcPercentage(
+    monthlyIncomeComp?.sales[0]["totalPrice"],
+    monthlyIncomeComp?.sales[1]["totalPrice"]
+  ).toFixed(2);
+  const ordersPerc = calcPercentage(
+    monthlyOrdersComp?.orders[0]["total"],
+    monthlyOrdersComp?.orders[1]["total"]
+  );
 
   let outOfStock = 0;
-  AdminProducts?.products?.forEach((product) => {
+
+  adminProducts?.products?.forEach((product) => {
     if (product.stock === 0) {
       outOfStock += 1;
     }
@@ -36,23 +64,43 @@ const Dashboard = () => {
         </div>
 
         <div className="col-9 col-md-10 col-lg-10">
-          <h1 className="my-4">Dashboard</h1>
+          {/* <h1 className="my-4">Dashboard</h1> */}
 
           {isLoading ? (
             <Loader />
           ) : (
             <Fragment>
               <MetaData title={"Admin Dashboard"} />
-
+              <h2 className="my-4">Total Overview</h2>
               <div className="row pr-4 ">
-                <div className="col-xl-3 col-md-12 col-12  mb-3">
+                {/* <div className="col-xl-3 col-md-12 col-12  mb-3">
                   <div className="card text-white bg-primary o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Total Amount
-                        <br /> <b>${AllOrders?.totalAmount?.toFixed(2)}</b>
+                        <br /> <b>${allOrders?.totalAmount?.toFixed(2)}</b>
+                        <br />
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
+                  <div className="card text-white bg-info o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Users
+                        <br /> <b>{allUsers?.users?.length}</b>
+                      </div>
+                    </div>
+                    <Link
+                      className="card-footer text-white clearfix small z-1 d-none d-md-block"
+                      to="/admin/users"
+                    >
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-xl-3 col-md-4 col-12 mb-3">
@@ -60,7 +108,7 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Products
-                        <br /> <b>{AdminProducts?.products?.length}</b>
+                        <br /> <b>{adminProducts?.products?.length}</b>
                       </div>
                     </div>
                     <Link
@@ -80,7 +128,7 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Orders
-                        <br /> <b>{AllOrders?.orders?.length}</b>
+                        <br /> <b>{allOrders?.orders?.length}</b>
                       </div>
                     </div>
                     <Link
@@ -93,25 +141,77 @@ const Dashboard = () => {
                       </span>
                     </Link>
                   </div>
+                </div> */}
+                <div className="col-xl-3 col-md-12 col-12  mb-3">
+                  <div className="card text-white bg-primary o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Total Amount
+                        <br /> <b>${allOrders?.totalAmount?.toFixed(2)}</b>
+                      </div>
+                    </div>
+                    <div className="clearfix p-3">
+                      <p className="float-lg-left text-center">
+                        ({incomePerc}%)
+                        {incomePerc > 0 ? <FaArrowUp /> : <FaArrowDownLong />}
+                      </p>
+                      <p className="float-lg-left text-center">
+                        Since last month
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
                 <div className="col-xl-3 col-md-4 col-12 mb-3">
                   <div className="card text-white bg-info o-hidden h-100">
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Users
-                        <br /> <b>{AllUsers?.users?.length}</b>
+                        <br /> <b>{allUsers?.users?.length}</b>
                       </div>
                     </div>
-                    <Link
-                      className="card-footer text-white clearfix small z-1 d-none d-md-block"
-                      to="/admin/users"
-                    >
-                      <span className="float-left">View Details</span>
-                      <span className="float-right">
-                        <i className="fa fa-angle-right"></i>
-                      </span>
-                    </Link>
+                    <div className="clearfix p-3">
+                      <p className="float-lg-left text-center">
+                        ({usersPerc}%)
+                        {Number(usersPerc) > 0 ? (
+                          <FaArrowUp />
+                        ) : (
+                          <FaArrowDownLong />
+                        )}
+                      </p>
+                      <p className="float-lg-right text-center">
+                        Since last month
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
+                  <div className="card text-white bg-success o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Products
+                        <br /> <b>{adminProducts?.products?.length}</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-xl-3 col-md-4 col-12 mb-3">
+                  <div className="card text-white bg-danger o-hidden h-100">
+                    <div className="card-body">
+                      <div className="text-center card-font-size">
+                        Orders
+                        <br /> <b>{allOrders?.orders?.length}</b>
+                      </div>
+                    </div>
+                    <div className="clearfix p-3">
+                      <p className="float-lg-left text-center">
+                        ({ordersPerc}%)
+                        {ordersPerc > 0 ? <FaArrowUp /> : <FaArrowDownLong />}
+                      </p>
+                      <p className="float-lg-right text-center ">
+                        Since last month
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -121,7 +221,7 @@ const Dashboard = () => {
                   className="col-12 d-none d-md-block d-lg-none"
                   style={{ height: "40vh" }}
                 >
-                  <CategoriesBar products={AdminProducts?.products} />
+                  <CategoriesBar products={adminProducts?.products} />
                 </div>
                 <div className="col-12 col-md-8 col-lg-10">
                   <div className="row">
@@ -136,14 +236,14 @@ const Dashboard = () => {
                       className="col-12 col-md-12 col-lg-6"
                       style={{ height: "40vh" }}
                     >
-                      <YearlySales orders={AllOrders?.orders} />
+                      <YearlySales orders={allOrders?.orders} />
                     </div>
 
                     <div
                       className="col-12 d-block d-md-none d-lg-block"
                       style={{ height: "40vh" }}
                     >
-                      <CategoriesBar products={AdminProducts?.products} />
+                      <CategoriesBar products={adminProducts?.products} />
                     </div>
                   </div>
                 </div>
@@ -154,14 +254,14 @@ const Dashboard = () => {
                       className="col-6 col-md-12 chart d-flex justify-content-center"
                       style={{ height: "40vh" }}
                     >
-                      <ItemStockPie products={AdminProducts?.products} />
+                      <ItemStockPie products={adminProducts?.products} />
                     </div>
 
                     <div
                       className="col-6 col-md-12 chart d-flex justify-content-center"
                       style={{ height: "40vh" }}
                     >
-                      <OrderStatusPie orders={AllOrders?.orders} />
+                      <OrderStatusPie orders={allOrders?.orders} />
                     </div>
                   </div>
                 </div>

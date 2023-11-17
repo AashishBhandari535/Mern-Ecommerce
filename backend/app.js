@@ -32,11 +32,13 @@ const products = require("./routes/product");
 const auth = require("./routes/auth");
 const payment = require("./routes/payment");
 const order = require("./routes/order");
+const sales = require("./routes/sales");
 
 app.use("/api/v1", products);
 app.use("/api/v1", auth);
 app.use("/api/v1", payment);
 app.use("/api/v1", order);
+app.use("/api/v1", sales);
 
 //errors dealing with unhandled routes
 app.all("*", (req, res, next) => {
