@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
+import { addSearchItem } from "../../slices/searchKeywordSlice";
 
 const Search = () => {
   const [keyword, setKeyword] = useState("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const searchHandler = (e) => {
     e.preventDefault();
 
     if (keyword.trim()) {
+      dispatch(addSearchItem(keyword));
       navigate(`/search/${keyword}`);
     } else {
       navigate("/");
@@ -24,7 +28,9 @@ const Search = () => {
           id="search_field"
           className="form-control"
           placeholder="Enter Product Name ..."
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => {
+            setKeyword(e.target.value);
+          }}
         />
         <div className="input-group-append">
           <button id="search_btn" className="btn">

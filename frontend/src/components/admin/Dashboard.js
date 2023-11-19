@@ -194,7 +194,6 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-xl-3 col-md-4 col-12 mb-3">
                   <div className="card text-white bg-danger o-hidden h-100">
                     <div className="card-body">

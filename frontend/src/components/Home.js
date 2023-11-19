@@ -9,11 +9,16 @@ import HomeLoader from "./Loader/HomeLoader";
 import Search from "./layout/Search";
 
 import { useLocation, useParams } from "react-router-dom";
-import DesktopFilterBar from "./DesktopFilterBar";
+import DesktopFilterBar from "./HomeFilter/DesktopFilterBar";
+import MobileFilterBar from "./HomeFilter/MobileFilterBar";
+import { addSearchItem } from "../slices/searchKeywordSlice";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
   const { keyword } = useParams();
   const { pathname } = useLocation();
+
+  const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([1, 1000]); //sets initial value of slider
@@ -41,6 +46,9 @@ const Home = () => {
       setPrice([1, 1000]);
       setRating(0);
     }
+    if (pathname !== "" && pathname !== "/") {
+      dispatch(addSearchItem(keyword));
+    }
   }, [pathname]);
   return (
     <Fragment>
@@ -51,13 +59,17 @@ const Home = () => {
           <Search />
         </div>
 
-        <h1 id="products_heading" className="text-lg-left text-center">
-          Latest Products
-        </h1>
+        {keyword ? (
+          ""
+        ) : (
+          <h1 id="products_heading" className="text-lg-left text-center ">
+            Latest Products
+          </h1>
+        )}
 
         <section id="products" className="container mt-5">
-          <div className="row">
-            {keyword ? (
+          {keyword ? (
+            <>
               <DesktopFilterBar
                 price={price}
                 setPrice={setPrice}
@@ -68,14 +80,28 @@ const Home = () => {
                 isFetching={isFetching}
                 data={data}
               />
-            ) : isFetching ? (
+              <MobileFilterBar
+                price={price}
+                setPrice={setPrice}
+                currentCategory={category}
+                currentRating={rating}
+                setCurrentCategory={setCategory}
+                setCurrentRating={setRating}
+                isFetching={isFetching}
+                data={data}
+              />
+            </>
+          ) : isFetching ? (
+            <div className="row">
               <HomeLoader col={3} />
-            ) : (
-              data?.products.map((product) => (
+            </div>
+          ) : (
+            <div className="row">
+              {data?.products.map((product) => (
                 <Product key={product._id} product={product} col={3} />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {data?.resPerPage <= count && (

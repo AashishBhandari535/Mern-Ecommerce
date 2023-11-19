@@ -108,7 +108,7 @@ nav {
   width: inherit;
   height: inherit;
   object-fit: cover;
-  object-position: center;
+  object-position: top center;
 }
 
 .ratings {
@@ -651,4 +651,17 @@ ul.CTAs a {
 
 .dataTables_wrapper {
   overflow-x: scroll;
+}
+
+/* Search keyword styles */
+.search-keyword {
+  border: solid;
+  padding: 10px;
+  background: #febd69;
+  border-radius: 30px;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  column-gap: 10px;
 }
