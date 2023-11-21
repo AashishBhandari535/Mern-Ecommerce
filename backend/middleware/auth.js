@@ -26,10 +26,7 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 exports.isVerified = (req, res, next) => {
   if (!req.user.isVerified) {
     return next(
-      new ErrorHandler(
-        "verify email address first to access this resource",
-        403
-      )
+      new ErrorHandler("verify email address first to access this page", 403)
     );
   }
   next();

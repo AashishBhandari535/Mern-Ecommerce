@@ -155,7 +155,7 @@ const Dashboard = () => {
                         ({incomePerc}%)
                         {incomePerc > 0 ? <FaArrowUp /> : <FaArrowDownLong />}
                       </p>
-                      <p className="float-lg-left text-center">
+                      <p className="float-lg-right text-center">
                         Since last month
                       </p>
                     </div>

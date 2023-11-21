@@ -13,7 +13,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: ({
         keyword = "",
         currentPage = 1,
-        price,
+        price = [0, 1000],
         category,
         rating = 0,
       }) => {

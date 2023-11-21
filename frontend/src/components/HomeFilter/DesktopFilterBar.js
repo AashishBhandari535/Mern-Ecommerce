@@ -1,22 +1,20 @@
 import React from "react";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
 
 import HomeLoader from "../Loader/HomeLoader";
 import Product from "../product/Product";
-import SearchKeyword from "./SearchKeyword";
-
-const createSliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = createSliderWithTooltip(Slider.Range);
+import SearchKeyword from "./FilterComponents/SearchKeyword";
+import PriceFilter from "./FilterComponents/PriceFilter";
+import CategoryFilter from "./FilterComponents/CategoryFilter";
 
 export default function DesktopFilterBar({
-  price,
   setPrice,
   currentCategory,
   setCurrentCategory,
   currentRating,
   setCurrentRating,
   isFetching,
+  changePrice,
+  setChangePrice,
   data,
 }) {
   const categories = [
@@ -37,27 +35,21 @@ export default function DesktopFilterBar({
     <>
       <div className="d-md-block d-none">
         <SearchKeyword />
+        <CategoryFilter
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+        />
+
         <div className="row">
           <div className="col-6 col-md-3 mt-5 mb-5">
-            <div className="px-lg-5">
-              <Range
-                marks={{
-                  1: `$1`,
-                  1000: `$1000`,
-                }}
-                min={1} //minimum value of the slider
-                max={1000} //maximum value of the slider
-                // defaultValue={[2, 100]}//We dont need it
-                tipFormatter={(value) => `$${value}`} //function format tooltip's overlay
-                tipProps={{
-                  placement: "top",
-                  visible: true,
-                }}
-                value={price} //Sets current value of slider
-                onChange={(price) => setPrice(price)}
+            <div className="px-lg-4">
+              <PriceFilter
+                changePrice={changePrice}
+                setPrice={setPrice}
+                setChangePrice={setChangePrice}
               />
 
-              <hr className="my-5" />
+              {/* <hr className="my-5" />
 
               <div className="mt-5">
                 <h4 className="mb-3">Categories</h4>
@@ -83,7 +75,7 @@ export default function DesktopFilterBar({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> */}
 
               <hr className="my-3" />
 
@@ -122,7 +114,7 @@ export default function DesktopFilterBar({
           <div className="col-6 col-md-9">
             <div className="row">
               {isFetching ? (
-                <HomeLoader />
+                <HomeLoader col={4} />
               ) : (
                 data?.products.map((product) => (
                   <Product key={product._id} product={product} col={4} />

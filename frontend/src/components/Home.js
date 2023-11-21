@@ -21,7 +21,11 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([1, 1000]); //sets initial value of slider
+  const [changePrice, setChangePrice] = useState({
+    min: 0,
+    max: 1000,
+  });
+  const [price, setPrice] = useState([changePrice.min, changePrice.max]); //sets initial value of slider
   const [category, setCategory] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -43,8 +47,12 @@ const Home = () => {
   useEffect(() => {
     if (pathname === "/") {
       setCategory("");
-      setPrice([1, 1000]);
       setRating(0);
+      setChangePrice({
+        min: 0,
+        max: 1000,
+      });
+      setPrice([0, 1000]);
     }
     if (pathname !== "" && pathname !== "/") {
       dispatch(addSearchItem(keyword));
@@ -78,6 +86,8 @@ const Home = () => {
                 setCurrentCategory={setCategory}
                 setCurrentRating={setRating}
                 isFetching={isFetching}
+                changePrice={changePrice}
+                setChangePrice={setChangePrice}
                 data={data}
               />
               <MobileFilterBar
@@ -88,6 +98,8 @@ const Home = () => {
                 setCurrentCategory={setCategory}
                 setCurrentRating={setRating}
                 isFetching={isFetching}
+                changePrice={changePrice}
+                setChangePrice={setChangePrice}
                 data={data}
               />
             </>

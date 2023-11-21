@@ -13,17 +13,21 @@ const searchHistory = createSlice({
     addSearchItem: (state, { payload }) => {
       const searchItem = payload;
 
-      const isItemExist = state.searchItems.find((item) => searchItem === item);
+      const isItemExist = state.searchItems.find(
+        (item) => searchItem.toLowerCase() === item.toLowerCase()
+      );
 
       if (isItemExist)
         state.searchItems = state.searchItems.map((item) =>
-          item === isItemExist ? searchItem : item
+          item.toLowerCase() === isItemExist.toLowerCase() ? searchItem : item
         );
       else state.searchItems.push(searchItem);
       localStorage.setItem("searchItems", JSON.stringify(state.searchItems));
     },
     removeSearchItem: (state, { payload }) => {
-      state.searchItems = state.searchItems.filter((item) => item !== payload);
+      state.searchItems = state.searchItems.filter(
+        (item) => item.toLowerCase() !== payload.toLowerCase()
+      );
       localStorage.setItem("searchItems", JSON.stringify(state.searchItems));
     },
   },

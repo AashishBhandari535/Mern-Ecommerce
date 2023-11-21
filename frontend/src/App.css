@@ -665,3 +665,15 @@ ul.CTAs a {
   display: flex;
   column-gap: 10px;
 }
+/* Category button */
+.category-button {
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.category-button__active {
+  background: #fa9c23 !important;
+  color: white;
+}
