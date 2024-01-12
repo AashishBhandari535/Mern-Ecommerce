@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "655eead61b25f7f9568138f8"
+  },
+  "user": {
+    "$oid": "64a8b6e638794cb3fb859720"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YThiNmU2Mzg3OTRjYjNmYjg1OTcyMCIsImlhdCI6MTcwMDcxOTMxOCwiZXhwIjoxNzAxMzI0MTE4fQ.38_zHd7ZLDmp34mlqR7BJ7i-C36RT5lmhvSNP8fh0-0",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1700719318981"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1700719318981"
+    }
+  },
+  "__v": 0
+}]

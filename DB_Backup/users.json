@@ -1,0 +1,122 @@
+[{
+  "_id": {
+    "$oid": "638ed9557c2abca3c6658658"
+  },
+  "name": "Aashish",
+  "email": "ghulam123@gmail.com",
+  "password": "$2b$12$VCAbhPiolJbsrrmmP7fcIeJuwlHMNaM2BNOF9OevVRs/tbZSUA7wy",
+  "avatar": {
+    "public_id": "avatars/uef9platsmpsa5jf2gzj",
+    "url": "https://res.cloudinary.com/dlk1uxnc9/image/upload/v1674812271/avatars/uef9platsmpsa5jf2gzj.jpg"
+  },
+  "role": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670306134005"
+    }
+  },
+  "__v": 0,
+  "resetPasswordExpire": {
+    "$date": {
+      "$numberLong": "1674813499451"
+    }
+  },
+  "resetPasswordToken": "95a8fb6aabf8ea3857fe722663bf4ca527c9fc8d5d302c7ac9dab89e2187b753",
+  "isVerified": "true"
+},{
+  "_id": {
+    "$oid": "6390496ea501d8203782f3dc"
+  },
+  "name": "Aashish",
+  "email": "jhurenas2@gmail.com",
+  "password": "$2b$12$4.GuAJlobiCxX/iorKnDVOKCjbo3gnd.jQjFIuLbb3u680zv68SUe",
+  "avatar": {
+    "public_id": "avatars/hagn5h3z0hf9s0yfpc9l",
+    "url": "https://res.cloudinary.com/dlk1uxnc9/image/upload/v1674986298/avatars/hagn5h3z0hf9s0yfpc9l.jpg"
+  },
+  "role": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670400366096"
+    }
+  },
+  "__v": 0,
+  "isVerified": "true"
+},{
+  "_id": {
+    "$oid": "63b7a1a0a4dbf59c8a4b24c1"
+  },
+  "name": "Aashish Bhandari",
+  "email": "aarav@example.com",
+  "password": "$2b$12$3zx6RyG5eqfWlXD1nqcTQesx14TYH6CXCuFI4VG1olH5r3NHDmXXa",
+  "avatar": {
+    "public_id": "avatars/fcwdqczkzuqqkneerm1w",
+    "url": "https://res.cloudinary.com/dlk1uxnc9/image/upload/v1674050519/avatars/fcwdqczkzuqqkneerm1w.jpg"
+  },
+  "role": "user",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1696566048812"
+    }
+  },
+  "__v": 0,
+  "isVerified": "true"
+},{
+  "_id": {
+    "$oid": "649e3f1972d78e63ecf40fde"
+  },
+  "name": "Aashish Bhandari",
+  "email": "jhurenas1@gmail.com",
+  "password": "$2b$12$qRsJ4XSnABz0ZIsMUIxfzOfcjtKxnRVlgvgB.BT.UnNlW7qe2Njxy",
+  "avatar": {
+    "public_id": "avatar/q4txzoq3whv19ty4ymlq",
+    "url": "https://res.cloudinary.com/dlk1uxnc9/image/upload/v1688092370/avatar/q4txzoq3whv19ty4ymlq.jpg"
+  },
+  "role": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1697769242000"
+    }
+  },
+  "__v": 0,
+  "isVerified": "true"
+},{
+  "_id": {
+    "$oid": "64a8b6e638794cb3fb859720"
+  },
+  "name": "Aashish Awesome",
+  "email": "hello@gmail.com",
+  "password": "$2b$12$CfodSoMn/dIRwHIM8oPNK.oM5BZLeFRbjDcASmgWcy7ZSPmTmgDpC",
+  "avatar": {
+    "public_id": "avatars/ax5f3wzamnq2r5hsj3hw",
+    "url": "https://res.cloudinary.com/dlk1uxnc9/image/upload/v1698378345/avatars/ax5f3wzamnq2r5hsj3hw.jpg"
+  },
+  "role": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1688778470479"
+    }
+  },
+  "__v": 0,
+  "isVerified": true,
+  "socialLogin": false
+},{
+  "_id": {
+    "$oid": "6541ebeff32c559716a7abaf"
+  },
+  "name": "Aashish Axis",
+  "email": "jhurenas@gmail.com",
+  "avatar": {
+    "public_id": "105821841443783202695",
+    "url": "https://lh3.googleusercontent.com/a/ACg8ocJiwvurZUjdcsr7gwdtmqC62iiGT21pzTaT6AMb2Vv88lk=s96-c"
+  },
+  "role": "user",
+  "socialLogin": true,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1698819055074"
+    }
+  },
+  "__v": 0,
+  "isVerified": true
+}]

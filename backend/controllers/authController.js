@@ -438,7 +438,10 @@ exports.monthlyUsersComp = catchAsyncErrors(async (req, res, next) => {
     .month(moment().month() - 1)
     .set("date", 1)
     .format("YYYY-MM-DD HH:mm:ss");
-
+  const monthList = [
+    new Date(previousMonth).getMonth() + 1, //previousMonth index
+    new Date().getMonth() + 1, //thisMonth index
+  ];
   const users = await User.aggregate([
     {
       $match: { createdAt: { $gte: new Date(previousMonth) } },
@@ -456,7 +459,14 @@ exports.monthlyUsersComp = catchAsyncErrors(async (req, res, next) => {
     },
     { $sort: { _id: -1 } },
   ]);
+  const userComp = monthList.map((month) => {
+    const matchedUser = users.find((sale) => sale._id === month);
+    return {
+      _id: month,
+      total: matchedUser ? matchedUser.total : 0,
+    };
+  });
   res.status(200).json({
-    users,
+    userComp,
   });
 });

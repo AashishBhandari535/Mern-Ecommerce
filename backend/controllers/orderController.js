@@ -143,6 +143,10 @@ exports.monthlyOrdersComp = catchAsyncErrors(async (req, res, next) => {
     .month(moment().month() - 1)
     .set("date", 1)
     .format("YYYY-MM-DD HH:mm:ss");
+  const monthList = [
+    new Date(previousMonth).getMonth() + 1, //previousMonth index
+    new Date().getMonth() + 1, //thisMonth index
+  ];
 
   const orders = await Order.aggregate([
     {
@@ -161,8 +165,15 @@ exports.monthlyOrdersComp = catchAsyncErrors(async (req, res, next) => {
     },
     { $sort: { _id: -1 } },
   ]);
+  const orderComp = monthList.map((month) => {
+    const matchedOrder = orders.find((sale) => sale._id === month);
+    return {
+      _id: month,
+      total: matchedOrder ? matchedOrder.total : 0,
+    };
+  });
   res.status(200).json({
-    orders,
+    orderComp,
   });
 });
 
