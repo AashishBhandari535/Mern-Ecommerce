@@ -1,10 +1,12 @@
 import { useGoogleLogin } from "@react-oauth/google";
 
-import { toast } from "react-toastify";
 import { useGoogleLoginMutation } from "../../slices/userApiSlice";
 import { useNavigate } from "react-router-dom";
 
 import { FcGoogle } from "react-icons/fc";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 export default function SocialLogin() {
   const navigate = useNavigate();
@@ -12,10 +14,10 @@ export default function SocialLogin() {
   const socialLoginHandler = async (credentialResponse) => {
     try {
       await socialLogin(credentialResponse);
-      toast.success("Successfully LoggedIn");
+      SuccessHandler("Successfully LoggedIn");
       navigate("/me");
     } catch (err) {
-      toast.error(err);
+      ErrorHandler(err);
     }
   };
   const socialSignIn = useGoogleLogin({

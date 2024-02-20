@@ -12,8 +12,10 @@ import {
   useDeleteOrderMutation,
 } from "../../slices/orderApiSlice";
 
-import { toast } from "react-toastify";
 import ButtonWrapper from "./ButtonWrapper";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const OrdersList = () => {
   const { data, isLoading } = useGetAllOrdersQuery();
@@ -22,9 +24,9 @@ const OrdersList = () => {
   const deleteOrderHandler = async (id) => {
     try {
       await deleteOrder(id).unwrap();
-      toast.success("Order deleted successfully");
+      SuccessHandler("Order deleted successfully");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

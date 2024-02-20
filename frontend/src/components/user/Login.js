@@ -7,11 +7,12 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
 
-import { toast } from "react-toastify";
-
 // queries and mutations
 import { useLoginMutation } from "../../slices/userApiSlice";
 import SocialLogin from "./SocialLogin";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,10 +33,10 @@ const Login = () => {
     try {
       await login({ email, password }).unwrap();
       setSubmitting(false);
-      toast.success("Successfully LoggedIn");
+      SuccessHandler("Successfully LoggedIn");
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err);
     }
   };
 

@@ -6,14 +6,15 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
-
 //Queries And Mutations
 import {
   useAllProductsQuery,
   useDeleteProductMutation,
 } from "../../slices/productsApiSlice";
 import ButtonWrapper from "./ButtonWrapper";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const ProductsList = () => {
   const { data, isLoading } = useAllProductsQuery();
@@ -81,9 +82,9 @@ const ProductsList = () => {
   const deleteProductHandler = async (id) => {
     try {
       await deleteProduct(id).unwrap();
-      toast.success("Product Deleted Successfully");
+      SuccessHandler("Product Deleted Successfully");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

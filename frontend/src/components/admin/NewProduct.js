@@ -3,11 +3,13 @@ import React, { Fragment, useState, useEffect } from "react";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 // Queries and Mutations
 import { useNewProductMutation } from "../../slices/productsApiSlice";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const NewProduct = () => {
   const [name, setName] = useState("");
@@ -56,10 +58,10 @@ const NewProduct = () => {
 
     try {
       await newProduct(formData);
-      toast.success("Product created successfully");
+      SuccessHandler("Product created successfully");
       navigate("/admin/products");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

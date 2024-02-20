@@ -7,8 +7,8 @@ import MetaData from "../layout/MetaData";
 //queries and mutations
 import { useForgotPasswordMutation } from "../../slices/userApiSlice";
 
-// import { useAlert } from "react-alert";
-import { toast } from "react-toastify";
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const ForgotPassword = () => {
   const emailValidation = Yup.object().shape({
@@ -26,9 +26,9 @@ const ForgotPassword = () => {
     try {
       const data = await forgotPassword(formData).unwrap();
       setSubmitting(false);
-      toast.success(data?.message);
+      SuccessHandler(data?.message);
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

@@ -172,6 +172,7 @@ exports.monthlyOrdersComp = catchAsyncErrors(async (req, res, next) => {
       total: matchedOrder ? matchedOrder.total : 0,
     };
   });
+  console.log(orderComp);
   res.status(200).json({
     orderComp,
   });

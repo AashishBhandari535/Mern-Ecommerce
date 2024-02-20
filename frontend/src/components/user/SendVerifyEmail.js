@@ -3,12 +3,14 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 //queries and mutations
 import { useSendVerifyEmailMutation } from "../../slices/userApiSlice";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const SendVerifyEmail = () => {
   const verifyEmailValidation = Yup.object().shape({
@@ -29,9 +31,9 @@ const SendVerifyEmail = () => {
     try {
       const data = await sendVerifyEmail(formData).unwrap();
       setSubmitting(false);
-      toast.success(data?.message);
+      SuccessHandler(data?.message);
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
   useEffect(() => {

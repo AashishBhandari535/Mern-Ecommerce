@@ -5,11 +5,12 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
-
 //Queries And Mutations
 import { useGetOrderDetailsQuery } from "../../slices/orderApiSlice";
 import { useUpdateOrderMutation } from "../../slices/orderApiSlice";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const ProcessOrder = () => {
   const [status, setStatus] = useState("");
@@ -30,9 +31,9 @@ const ProcessOrder = () => {
 
     try {
       await updateOrder(data);
-      toast.success("Order updated successfully");
+      SuccessHandler("Order updated successfully");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

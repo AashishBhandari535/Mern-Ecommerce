@@ -6,14 +6,16 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
-
 // Queries And Mutation
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../slices/userApiSlice";
+
 import ButtonWrapper from "./ButtonWrapper";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const UsersList = () => {
   const { data, isLoading } = useGetAllUsersQuery();
@@ -22,9 +24,9 @@ const UsersList = () => {
   const deleteUserHandler = async (id) => {
     try {
       await deleteUser(id).unwrap();
-      toast.success("User deleted successfully");
+      SuccessHandler("User deleted successfully");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

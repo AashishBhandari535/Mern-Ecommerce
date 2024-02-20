@@ -1,13 +1,15 @@
 import React, { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 import Search from "./Search";
 
 //queries and mutations
 import { useLogOutMutation } from "../../slices/userApiSlice";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 import "./../../App.css";
 
@@ -22,10 +24,10 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await userLogOut().unwrap();
-      toast.success("Successfully LoggedOut");
+      SuccessHandler("Successfully LoggedOut");
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

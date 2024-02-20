@@ -22,6 +22,9 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+
 const options = {
   style: {
     base: {
@@ -84,7 +87,7 @@ const Payment = () => {
       });
 
       if (result.error) {
-        toast.error(result.error.message);
+        ErrorHandler(result.error.message);
         document.querySelector("#pay_btn").disabled = false;
       } else {
         // The payment is processed or not
@@ -94,7 +97,7 @@ const Payment = () => {
             status: result.paymentIntent.status,
           };
           await createOrder(order).unwrap();
-          toast.success("Payment successfull");
+          SuccessHandler("Payment successfull");
           sessionStorage.removeItem("orderInfo");
           navigate("/success");
         } else {

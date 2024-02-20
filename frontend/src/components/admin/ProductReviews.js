@@ -4,13 +4,14 @@ import { MDBDataTable } from "mdbreact";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
-
 // Queries and Mutations
 import {
   useDeleteReviewMutation,
   useLazyGetProductReviewsQuery,
 } from "../../slices/productsApiSlice";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const ProductReviews = () => {
   const [productId, setProductId] = useState("");
@@ -25,11 +26,10 @@ const ProductReviews = () => {
     };
     try {
       await deleteReview(data).unwrap();
-      toast.success("Review Deleted Successfully");
+      SuccessHandler("Review Deleted Successfully");
       const res = await trigger(productId).unwrap();
-      console.log(res);
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 
@@ -38,7 +38,7 @@ const ProductReviews = () => {
     try {
       await trigger(productId).unwrap();
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

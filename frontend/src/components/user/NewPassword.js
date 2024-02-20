@@ -6,10 +6,12 @@ import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
-import { toast } from "react-toastify";
 
 //Queries and Mutation
 import { useResetPasswordMutation } from "../../slices/userApiSlice";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const NewPassword = () => {
   const [showPassword, setShowPassword] = useState("");
@@ -48,10 +50,10 @@ const NewPassword = () => {
     try {
       await resetPassword(resetData).unwrap();
       setSubmitting(false);
-      toast.success("Password updated Successfully");
+      SuccessHandler("Password updated Successfully");
       navigate("/login");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

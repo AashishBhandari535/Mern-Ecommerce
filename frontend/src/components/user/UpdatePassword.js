@@ -5,11 +5,13 @@ import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
 
-import { toast } from "react-toastify";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
 
 // queries and mutations
 import { useUpdatePasswordMutation } from "../../slices/userApiSlice";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const UpdatePassword = () => {
   const [showOldPassword, setShowOldPassword] = useState("");
@@ -39,10 +41,10 @@ const UpdatePassword = () => {
     try {
       await updatePassword(formData).unwrap();
       setSubmitting(false);
-      toast.success("Password Updated successfully");
+      SuccessHandler("Password Updated successfully");
       navigate("/me");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
   return (

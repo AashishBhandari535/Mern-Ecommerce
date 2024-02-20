@@ -25,8 +25,8 @@ import {
 } from "../../slices/orderApiSlice";
 
 function calcPercentage(a, b) {
-  if (a === 0 || a === b) return 100;
-  if (a === 0 && b === 0) return 0;
+  if (a === 0 && b > 0) return 100;
+  if (a === b) return 0;
   return ((b - a) / a) * 100;
 }
 const Dashboard = () => {
@@ -36,13 +36,12 @@ const Dashboard = () => {
   const { data: monthlyIncomeComp } = useGetMonthlySalesCompQuery();
   const { data: monthlyUsersComp } = useGetMonthlyUsersCompQuery();
   const { data: monthlyOrdersComp } = useGetMonthlyOrdersCompQuery();
+  console.log(monthlyIncomeComp, monthlyOrdersComp, monthlyUsersComp);
 
-  console.log(monthlyIncomeComp, monthlyUsersComp, monthlyOrdersComp);
-
-  // const usersPerc = calcPercentage(
-  //   monthlyUsersComp?.users[0]["total"],
-  //   monthlyUsersComp?.users[1]["total"]
-  // ).toFixed(2);
+  const usersPerc = calcPercentage(
+    monthlyUsersComp?.userComp[0]["total"],
+    monthlyUsersComp?.userComp[1]["total"]
+  ).toFixed(2);
   const incomePerc = calcPercentage(
     monthlyIncomeComp?.incomeComp[0]["totalPrice"],
     monthlyIncomeComp?.incomeComp[1]["totalPrice"]
@@ -51,7 +50,6 @@ const Dashboard = () => {
     monthlyOrdersComp?.orderComp[0]["total"],
     monthlyOrdersComp?.orderComp[1]["total"]
   ).toFixed(2);
-  let usersPerc = 0;
 
   let outOfStock = 0;
 

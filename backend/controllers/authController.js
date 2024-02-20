@@ -466,6 +466,7 @@ exports.monthlyUsersComp = catchAsyncErrors(async (req, res, next) => {
       total: matchedUser ? matchedUser.total : 0,
     };
   });
+  console.log(userComp);
   res.status(200).json({
     userComp,
   });

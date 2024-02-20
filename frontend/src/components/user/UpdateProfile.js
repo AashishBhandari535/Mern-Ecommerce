@@ -5,11 +5,12 @@ import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
 
-import { toast } from "react-toastify";
-
 // queries and mutations
 import { useUpdateProfileMutation } from "../../slices/userApiSlice";
 import { useSelector } from "react-redux";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const UpdateProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -33,11 +34,11 @@ const UpdateProfile = () => {
 
     try {
       await updateProfile(formData).unwrap();
-      toast.success("Profile Updated Successfully");
+      SuccessHandler("Profile Updated Successfully");
       setSubmitting(false);
       navigate("/me");
     } catch (err) {
-      toast.error(err?.data?.errMessage.split(":")[2]);
+      ErrorHandler(err?.data?.errMessage.split(":")[2]);
     }
   };
   useEffect(() => {

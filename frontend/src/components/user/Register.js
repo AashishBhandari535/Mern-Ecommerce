@@ -5,12 +5,14 @@ import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
 
-import { toast } from "react-toastify";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
 
 //queries and mutations
 import { useRegisterMutation } from "../../slices/userApiSlice";
 import SocialLogin from "./SocialLogin";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -52,10 +54,10 @@ const Register = () => {
     try {
       await register(formData).unwrap();
       setSubmitting(false);
-      toast.success("User successfully created");
+      SuccessHandler("User successfully created");
       navigate("/me");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

@@ -3,8 +3,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
 
-import { toast } from "react-toastify";
-
 import { useNavigate, useParams } from "react-router-dom";
 
 // Queries and Mutations
@@ -12,6 +10,9 @@ import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
+
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -46,10 +47,10 @@ const UpdateUser = () => {
 
     try {
       await updateUser(userData).unwrap();
-      toast.success("User updated successfully");
+      SuccessHandler("User updated successfully");
       navigate("/admin/users");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

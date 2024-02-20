@@ -5,10 +5,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import MetaData from "../layout/MetaData";
-import { toast } from "react-toastify";
 
 //Queries and Mutation
 import { useVerifyEmailMutation } from "../../slices/userApiSlice";
+
+//NotificationMessages
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
 
 const VerifyEmail = () => {
   const { emailVerificationToken, userId } = useParams();
@@ -34,10 +36,10 @@ const VerifyEmail = () => {
     try {
       await verifyEmail(verifyEmailData).unwrap();
       setSubmitting(false);
-      toast.success("Email Verfied Successfully");
+      SuccessHandler("Email Verfied Successfully");
       navigate("/me");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

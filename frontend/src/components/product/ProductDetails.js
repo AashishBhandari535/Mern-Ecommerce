@@ -15,6 +15,9 @@ import {
   useNewReviewMutation,
 } from "../../slices/productsApiSlice";
 
+// NotificationMessage
+import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+
 //Actions
 import { addItemToCart } from "../../slices/cartSlice";
 import ProductShare from "./ProductShare";
@@ -110,9 +113,9 @@ const ProductDetails = () => {
 
     try {
       await createNewReview(formData).unwrap();
-      toast.success("Review Posted");
+      SuccessHandler("Review Posted");
     } catch (err) {
-      toast.error(err?.data?.errMessage);
+      ErrorHandler(err?.data?.errMessage);
     }
   };
 

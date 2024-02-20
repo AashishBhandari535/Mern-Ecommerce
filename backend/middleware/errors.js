@@ -53,3 +53,6 @@ module.exports = (err, req, res, next) => {
     });
   }
 };
+
+// https://www.toptal.com/express-js/routes-js-promises-error-handling
+// https://www.youtube.com/watch?v=c3WSziz_u_o
