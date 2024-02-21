@@ -10,8 +10,6 @@ import {
   useCreateOrderMutation,
 } from "../../slices/orderApiSlice";
 
-import { toast } from "react-toastify";
-
 import {
   useStripe,
   useElements,
@@ -23,7 +21,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 // NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+import { errorHandler, successHandler } from "../../utils/notificationHandler";
 
 const options = {
   style: {
@@ -87,7 +85,7 @@ const Payment = () => {
       });
 
       if (result.error) {
-        ErrorHandler(result.error.message);
+        errorHandler(result.error.message);
         document.querySelector("#pay_btn").disabled = false;
       } else {
         // The payment is processed or not
@@ -97,17 +95,17 @@ const Payment = () => {
             status: result.paymentIntent.status,
           };
           await createOrder(order).unwrap();
-          SuccessHandler("Payment successfull");
+          successHandler("Payment successfull");
           sessionStorage.removeItem("orderInfo");
           navigate("/success");
         } else {
-          toast.error("There is some issue while payment processing");
+          errorHandler("There is some issue while payment processing");
         }
       }
     } catch (error) {
       console.log(error);
       document.querySelector("#pay_btn").disabled = false;
-      toast.error(error?.data?.errMessage);
+      errorHandler(error?.data?.errMessage);
     }
   };
 

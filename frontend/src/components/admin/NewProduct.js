@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 // Queries and Mutations
 import { useNewProductMutation } from "../../slices/productsApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { newProductService } from "../../services/productService";
 
 const NewProduct = () => {
   const [name, setName] = useState("");
@@ -56,13 +56,7 @@ const NewProduct = () => {
       formData.append("images", image);
     });
 
-    try {
-      await newProduct(formData);
-      SuccessHandler("Product created successfully");
-      navigate("/admin/products");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    newProductService(formData, newProduct, navigate);
   };
 
   const onChange = (e) => {

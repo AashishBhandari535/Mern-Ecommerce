@@ -2,11 +2,12 @@ import React, { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import MetaData from "../layout/MetaData";
-import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { addItemToCart, removeItemFromCart } from "../../slices/cartSlice";
+
+import { errorHandler } from "../../utils/notificationHandler";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Cart = () => {
   const checkoutHandler = () => {
     isAuthenticated ? navigate("/shipping") : navigate("/login");
     if (!user.isVerified) {
-      toast.error("Verify Email Address To proceed To Shipping");
+      errorHandler("Verify Email Address To proceed To Shipping");
       return;
     }
   };

@@ -14,20 +14,15 @@ import {
 
 import ButtonWrapper from "./ButtonWrapper";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { deleteOrderService } from "../../services/orderService";
 
 const OrdersList = () => {
   const { data, isLoading } = useGetAllOrdersQuery();
   const [deleteOrder] = useDeleteOrderMutation();
 
   const deleteOrderHandler = async (id) => {
-    try {
-      await deleteOrder(id).unwrap();
-      SuccessHandler("Order deleted successfully");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    deleteOrderService(id, deleteOrder);
   };
 
   const setOrders = () => {

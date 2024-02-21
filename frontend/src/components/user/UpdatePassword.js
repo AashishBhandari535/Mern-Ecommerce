@@ -10,8 +10,8 @@ import { ImEye, ImEyeBlocked } from "react-icons/im";
 // queries and mutations
 import { useUpdatePasswordMutation } from "../../slices/userApiSlice";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { updatePasswordService } from "../../services/authService";
 
 const UpdatePassword = () => {
   const [showOldPassword, setShowOldPassword] = useState("");
@@ -38,14 +38,7 @@ const UpdatePassword = () => {
     formData.append("oldPassword", oldPassword);
     formData.append("newPassword", newPassword);
 
-    try {
-      await updatePassword(formData).unwrap();
-      setSubmitting(false);
-      SuccessHandler("Password Updated successfully");
-      navigate("/me");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    updatePasswordService(formData, updatePassword, setSubmitting, navigate);
   };
   return (
     <Fragment>

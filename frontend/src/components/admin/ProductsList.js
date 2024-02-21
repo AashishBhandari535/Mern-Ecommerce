@@ -13,8 +13,8 @@ import {
 } from "../../slices/productsApiSlice";
 import ButtonWrapper from "./ButtonWrapper";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { deleteProductService } from "../../services/productService";
 
 const ProductsList = () => {
   const { data, isLoading } = useAllProductsQuery();
@@ -80,12 +80,7 @@ const ProductsList = () => {
   };
 
   const deleteProductHandler = async (id) => {
-    try {
-      await deleteProduct(id).unwrap();
-      SuccessHandler("Product Deleted Successfully");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    deleteProductService(id, deleteProduct);
   };
 
   return (

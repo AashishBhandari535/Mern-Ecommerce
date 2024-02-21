@@ -11,8 +11,8 @@ import { ImEye, ImEyeBlocked } from "react-icons/im";
 import { useRegisterMutation } from "../../slices/userApiSlice";
 import SocialLogin from "./SocialLogin";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { signUpService } from "../../services/authService";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -51,14 +51,7 @@ const Register = () => {
     //   console.log(value);
     // }
 
-    try {
-      await register(formData).unwrap();
-      setSubmitting(false);
-      SuccessHandler("User successfully created");
-      navigate("/me");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    signUpService(formData, register, setSubmitting, navigate);
   };
 
   return (

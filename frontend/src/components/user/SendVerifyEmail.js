@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 //queries and mutations
 import { useSendVerifyEmailMutation } from "../../slices/userApiSlice";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { sendVerifyEmailService } from "../../services/authService";
 
 const SendVerifyEmail = () => {
   const verifyEmailValidation = Yup.object().shape({
@@ -28,13 +28,7 @@ const SendVerifyEmail = () => {
     const formData = new FormData();
     formData.set("email", email);
 
-    try {
-      const data = await sendVerifyEmail(formData).unwrap();
-      setSubmitting(false);
-      SuccessHandler(data?.message);
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    sendVerifyEmailService(formData, sendVerifyEmail, setSubmitting);
   };
   useEffect(() => {
     if (user.isVerified) {

@@ -6,7 +6,6 @@ import ProductPageLoader from "../Loader/ProductPageLoader";
 import MetaData from "../layout/MetaData";
 import ListReviews from "../review/ListReviews";
 
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
 //Queries And Mutations
@@ -15,12 +14,12 @@ import {
   useNewReviewMutation,
 } from "../../slices/productsApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
-
 //Actions
 import { addItemToCart } from "../../slices/cartSlice";
 import ProductShare from "./ProductShare";
+
+//services
+import { createNewProductReviewService } from "../../services/productService";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -111,12 +110,7 @@ const ProductDetails = () => {
     formData.set("comment", comment);
     formData.set("productId", id);
 
-    try {
-      await createNewReview(formData).unwrap();
-      SuccessHandler("Review Posted");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    createNewProductReviewService(formData, createNewReview);
   };
 
   return (

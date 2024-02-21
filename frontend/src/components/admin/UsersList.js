@@ -14,20 +14,15 @@ import {
 
 import ButtonWrapper from "./ButtonWrapper";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// service
+import { deleteUserService } from "../../services/userService";
 
 const UsersList = () => {
   const { data, isLoading } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
 
   const deleteUserHandler = async (id) => {
-    try {
-      await deleteUser(id).unwrap();
-      SuccessHandler("User deleted successfully");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    deleteUserService(id, deleteUser);
   };
 
   const setUsers = () => {

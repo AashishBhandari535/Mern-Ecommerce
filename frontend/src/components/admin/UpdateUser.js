@@ -11,8 +11,8 @@ import {
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// service
+import { updateUserService } from "../../services/userService";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");
@@ -45,13 +45,7 @@ const UpdateUser = () => {
       formData,
     };
 
-    try {
-      await updateUser(userData).unwrap();
-      SuccessHandler("User updated successfully");
-      navigate("/admin/users");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    updateUserService(userData, updateUser, navigate);
   };
 
   return (

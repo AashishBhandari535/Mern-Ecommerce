@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 
-export function ErrorHandler(err) {
-  toast.error(err?.data?.errMessage);
+export function errorHandler(err) {
+  if (err instanceof Error) toast.error(err?.data?.errMessage);
+  else toast.error(err);
 }
 
-export function SuccessHandler(success) {
+export function successHandler(success) {
   toast.success(success);
 }

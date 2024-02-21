@@ -10,8 +10,10 @@ import {
   useLazyGetProductReviewsQuery,
 } from "../../slices/productsApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { deleteProductReviewService } from "../../services/productService";
+// notificationMessage
+import { errorHandler } from "../../utils/notificationHandler";
 
 const ProductReviews = () => {
   const [productId, setProductId] = useState("");
@@ -24,13 +26,8 @@ const ProductReviews = () => {
       id,
       productId,
     };
-    try {
-      await deleteReview(data).unwrap();
-      SuccessHandler("Review Deleted Successfully");
-      const res = await trigger(productId).unwrap();
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+
+    deleteProductReviewService(data, deleteReview);
   };
 
   const submitHandler = async (e) => {
@@ -38,7 +35,7 @@ const ProductReviews = () => {
     try {
       await trigger(productId).unwrap();
     } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
+      errorHandler(err?.data?.errMessage);
     }
   };
 

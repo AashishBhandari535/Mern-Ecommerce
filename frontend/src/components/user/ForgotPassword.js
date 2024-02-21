@@ -6,9 +6,7 @@ import MetaData from "../layout/MetaData";
 
 //queries and mutations
 import { useForgotPasswordMutation } from "../../slices/userApiSlice";
-
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+import { forgotPasswordService } from "../../services/authService";
 
 const ForgotPassword = () => {
   const emailValidation = Yup.object().shape({
@@ -23,13 +21,7 @@ const ForgotPassword = () => {
     const formData = new FormData();
     formData.set("email", email);
 
-    try {
-      const data = await forgotPassword(formData).unwrap();
-      setSubmitting(false);
-      SuccessHandler(data?.message);
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    forgotPasswordService(formData, forgotPassword, setSubmitting);
   };
 
   return (

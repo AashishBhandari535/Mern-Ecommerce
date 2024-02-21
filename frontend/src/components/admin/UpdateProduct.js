@@ -11,8 +11,8 @@ import {
   useUpdateProductMutation,
 } from "../../slices/productsApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { updateProductService } from "../../services/productService";
 
 const UpdateProduct = () => {
   const [name, setName] = useState("");
@@ -77,13 +77,8 @@ const UpdateProduct = () => {
       productId,
       formData,
     };
-    try {
-      await updateProduct(productData).unwrap();
-      SuccessHandler("Product updated successfully");
-      navigate("/admin/products");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+
+    updateProductService(productData, updateProduct, navigate);
   };
 
   const onChange = (e) => {

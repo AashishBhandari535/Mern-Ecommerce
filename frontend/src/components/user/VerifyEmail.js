@@ -9,8 +9,8 @@ import MetaData from "../layout/MetaData";
 //Queries and Mutation
 import { useVerifyEmailMutation } from "../../slices/userApiSlice";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// servies
+import { verifyEmailService } from "../../services/authService";
 
 const VerifyEmail = () => {
   const { emailVerificationToken, userId } = useParams();
@@ -33,14 +33,7 @@ const VerifyEmail = () => {
       emailVerificationCode,
     };
 
-    try {
-      await verifyEmail(verifyEmailData).unwrap();
-      setSubmitting(false);
-      SuccessHandler("Email Verfied Successfully");
-      navigate("/me");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    verifyEmailService(verifyEmailData, verifyEmail, setSubmitting, navigate);
   };
 
   return (

@@ -9,8 +9,8 @@ import MetaData from "../layout/MetaData";
 import { useUpdateProfileMutation } from "../../slices/userApiSlice";
 import { useSelector } from "react-redux";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { updateProfileService } from "../../services/authService";
 
 const UpdateProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -32,14 +32,7 @@ const UpdateProfile = () => {
     formData.append("email", email);
     formData.append("avatar", avatar);
 
-    try {
-      await updateProfile(formData).unwrap();
-      SuccessHandler("Profile Updated Successfully");
-      setSubmitting(false);
-      navigate("/me");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage.split(":")[2]);
-    }
+    updateProfileService(formData, updateProfile, setSubmitting, navigate);
   };
   useEffect(() => {
     if (user.isVerified) {

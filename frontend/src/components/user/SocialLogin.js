@@ -5,20 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 import { FcGoogle } from "react-icons/fc";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { socialLoginService } from "../../services/authService";
 
 export default function SocialLogin() {
   const navigate = useNavigate();
   const [socialLogin] = useGoogleLoginMutation();
   const socialLoginHandler = async (credentialResponse) => {
-    try {
-      await socialLogin(credentialResponse);
-      SuccessHandler("Successfully LoggedIn");
-      navigate("/me");
-    } catch (err) {
-      ErrorHandler(err);
-    }
+    socialLoginService(credentialResponse, socialLogin, navigate);
   };
   const socialSignIn = useGoogleLogin({
     onSuccess: (res) => socialLoginHandler(res),

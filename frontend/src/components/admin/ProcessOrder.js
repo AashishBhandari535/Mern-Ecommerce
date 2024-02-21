@@ -9,8 +9,8 @@ import Sidebar from "./Sidebar";
 import { useGetOrderDetailsQuery } from "../../slices/orderApiSlice";
 import { useUpdateOrderMutation } from "../../slices/orderApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { updateOrderService } from "../../services/orderService";
 
 const ProcessOrder = () => {
   const [status, setStatus] = useState("");
@@ -29,12 +29,7 @@ const ProcessOrder = () => {
       formData,
     };
 
-    try {
-      await updateOrder(data);
-      SuccessHandler("Order updated successfully");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    updateOrderService(data, updateOrder);
   };
 
   const shippingDetails = `${data?.order?.shippingInfo.address}, ${data?.order?.shippingInfo.city}, ${data?.order?.shippingInfo.postalCode}, ${data?.order?.shippingInfo.country}`;

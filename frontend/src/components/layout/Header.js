@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 
 import Search from "./Search";
 
-//queries and mutations
+// queries and mutations
 import { useLogOutMutation } from "../../slices/userApiSlice";
 
-// NotificationMessage
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { signOutService } from "../../services/authService";
 
 import "./../../App.css";
 
@@ -22,13 +22,7 @@ const Header = () => {
   const [userLogOut] = useLogOutMutation();
 
   const logoutHandler = async () => {
-    try {
-      await userLogOut().unwrap();
-      SuccessHandler("Successfully LoggedOut");
-      navigate("/");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    signOutService(userLogOut, navigate);
   };
 
   return (

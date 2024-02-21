@@ -7,11 +7,11 @@ import * as Yup from "yup";
 import MetaData from "../layout/MetaData";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
 
-//Queries and Mutation
+// Queries and Mutation
 import { useResetPasswordMutation } from "../../slices/userApiSlice";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
+// services
+import { resetPasswordService } from "../../services/authService";
 
 const NewPassword = () => {
   const [showPassword, setShowPassword] = useState("");
@@ -47,14 +47,7 @@ const NewPassword = () => {
       formData,
     };
 
-    try {
-      await resetPassword(resetData).unwrap();
-      setSubmitting(false);
-      SuccessHandler("Password updated Successfully");
-      navigate("/login");
-    } catch (err) {
-      ErrorHandler(err?.data?.errMessage);
-    }
+    resetPasswordService(resetData, resetPassword, setSubmitting, navigate);
   };
 
   return (

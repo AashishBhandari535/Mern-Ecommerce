@@ -36,7 +36,6 @@ const Dashboard = () => {
   const { data: monthlyIncomeComp } = useGetMonthlySalesCompQuery();
   const { data: monthlyUsersComp } = useGetMonthlyUsersCompQuery();
   const { data: monthlyOrdersComp } = useGetMonthlyOrdersCompQuery();
-  console.log(monthlyIncomeComp, monthlyOrdersComp, monthlyUsersComp);
 
   const usersPerc = calcPercentage(
     monthlyUsersComp?.userComp[0]["total"],

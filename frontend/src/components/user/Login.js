@@ -11,9 +11,7 @@ import { ImEye, ImEyeBlocked } from "react-icons/im";
 import { useLoginMutation } from "../../slices/userApiSlice";
 import SocialLogin from "./SocialLogin";
 
-//NotificationMessages
-import { SuccessHandler, ErrorHandler } from "../../utils/NotificationHandler";
-
+import { signInService } from "../../services/authService";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const loginValidation = Yup.object().shape({
@@ -30,14 +28,7 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const submitHandler = async ({ email, password }, { setSubmitting }) => {
-    try {
-      await login({ email, password }).unwrap();
-      setSubmitting(false);
-      SuccessHandler("Successfully LoggedIn");
-      navigate("/");
-    } catch (err) {
-      ErrorHandler(err);
-    }
+    signInService({ email, password }, login, setSubmitting, navigate);
   };
 
   return (
