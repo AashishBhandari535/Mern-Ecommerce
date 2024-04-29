@@ -38,7 +38,6 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     getOrderDetails: builder.query({
       query: (id) => {
-        console.log(id);
         return {
           url: `${ORDER_URL}/${id}`,
           method: "GET",

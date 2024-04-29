@@ -11,7 +11,7 @@ export const signInService = (
     const { email, password } = loginData;
     await loginFunction({ email, password }).unwrap();
     setSubmitting(false);
-    successHandler();
+    successHandler("Successfully LoggedIn");
     navigate("/");
   });
 
@@ -29,7 +29,7 @@ export const signUpService = (
   });
 
 export const signOutService = (logoutFunction, navigate) =>
-  catchAsyncError(async () => {
+  catchAsyncError("", async () => {
     await logoutFunction().unwrap();
     successHandler("Successfully LoggedOut");
     navigate("/");
