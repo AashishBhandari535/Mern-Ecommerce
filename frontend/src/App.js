@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
+// ui components
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+
+import {
+  AdminRoutes,
+  ProtectedRoutes,
+  VerifiedRoutes,
+  publicRoutes,
+} from "./Routes";
 
 // middleware
 import ProtectedRoute from "./middlewares/ProtectedRoute";
@@ -18,12 +26,6 @@ import { useGetStripeKeyQuery } from "./slices/orderApiSlice";
 import { loadStripe } from "@stripe/stripe-js";
 
 import "./App.css";
-import {
-  AdminRoutes,
-  ProtectedRoutes,
-  VerifiedRoutes,
-  publicRoutes,
-} from "./Routes";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");

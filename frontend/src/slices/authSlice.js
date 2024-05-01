@@ -11,7 +11,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, { payload }) => {
-      localStorage.setItem("userInfo", payload);
+      localStorage.setItem("accessToken", payload);
     },
     setUser: (state, { payload }) => {
       state.loading = false;
@@ -19,7 +19,7 @@ const authSlice = createSlice({
       state.user = payload;
     },
     logout: (state, { payload }) => {
-      localStorage.removeItem("userInfo");
+      localStorage.removeItem("accessToken");
       state.isAuthenticated = false;
       state.user = null;
       state.loading = false;

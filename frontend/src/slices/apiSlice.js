@@ -5,7 +5,7 @@ import { setCredentials, logout } from "./authSlice";
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers, api) => {
-    const token = localStorage.getItem("userInfo");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
 
 async function baseQueryWithReAuth(args, api, extra) {
   let result = await baseQuery(args, api, extra);
-  if (result?.error && result?.error?.status === 403) {
+  if (result?.error && result?.error?.status === 401) {
     const response = await baseQuery(`${REFRESHTOKEN_URL}`, api, extra);
     if (response?.data) {
       // Store the new token

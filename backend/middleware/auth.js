@@ -13,7 +13,8 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) return res.status(403).json({ errMessage: "Forbidden" });
+      if (err)
+        return res.status(401).json({ errMessage: "Invalid accessToken" });
       req.user = await User.findById(decoded.id);
       next();
     });

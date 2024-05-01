@@ -15,6 +15,6 @@ const userTokenSchema = new mongoose.Schema(
 );
 
 // delete the refresh tokens every 30mins
-userTokenSchema.index({ createdAt: 1 }, { expires: "7d" });
+// userTokenSchema.index({ createdAt: 1 }, { expires: "7d" });
 
 module.exports = mongoose.model("UserToken", userTokenSchema);

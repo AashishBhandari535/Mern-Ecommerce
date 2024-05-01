@@ -75,7 +75,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 // googleLoginUser => /api/v1/users/googleLogin
 exports.googleLoginUser = catchAsyncErrors(async (req, res, next) => {
   const { code } = req.body;
-  console.log("sdsdsd", code);
   const oauthClient = new OAuth2Client(
     process.env.OAUTH_CLIENT_ID,
     process.env.OAUTH_CLIENT_SECRET,
@@ -113,21 +112,48 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
 
   const refreshToken = cookies.refreshToken;
 
-  UserToken.findOne({ token: refreshToken }, (err, doc) => {
-    if (!doc || err) return next(new ErrorHandler("Forbidden", 403));
-    jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) return next(new ErrorHandler("Your login has expired", 403));
-
-      const foundUser = await User.findById(decoded.id);
-
-      if (!foundUser) return next(new ErrorHandler("User Not Found", 403));
-      const token = foundUser.generateAuthToken();
-
-      res.status(200).json({
-        token,
-      });
-    });
+  //
+  const existingToken = await UserToken.findOne({
+    token: refreshToken,
   });
+  if (!existingToken) {
+    return next(new ErrorHandler("Invalid refreshToken", 401));
+  }
+
+  const existingUser = await User.findById(existingToken.user);
+  if (!existingUser) {
+    return next(new ErrorHandler("Invalid refreshToken", 401));
+  }
+
+  const refreshTokenExpiresAt = jwt.decode(existingToken.token).exp * 1000;
+  if (Date.now() >= refreshTokenExpiresAt) {
+    await existingToken.deleteOne();
+    return next(new ErrorHandler("Expired refreshToken", 401));
+  }
+
+  if (!existingUser) return next(new ErrorHandler("User Not Found", 403));
+  const token = existingUser.generateAuthToken();
+
+  res.status(200).json({
+    token,
+  });
+  //
+
+  // UserToken.findOne({ token: refreshToken }, (err, doc) => {
+  //   if (!doc || err) return next(new ErrorHandler("Forbidden", 403));
+  //   jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, decoded) => {
+  //     if (err) return next(new ErrorHandler("Your login has expired", 403));
+
+  //     const foundUser = await User.findById(decoded.id);
+
+  //     if (!foundUser) return next(new ErrorHandler("User Not Found", 403));
+  //     const token = foundUser.generateAuthToken();
+
+  //     res.status(200).json({
+  //       token,
+  //     });
+  //   });
+  // });
 });
 
 // send Verify Email => /api/v1/users/email/verifyEmail
@@ -353,9 +379,10 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 exports.logOut = catchAsyncErrors(async (req, res, next) => {
   const { refreshToken } = req.cookies;
   await UserToken.remove({ token: refreshToken });
-  res.cookie("refreshToken", null, {
-    expires: new Date(Date.now()),
+  res.clearCookie("refreshToken", {
     httpOnly: true,
+    secure: true,
+    sameSite: "None",
   });
 
   res.status(200).json({
